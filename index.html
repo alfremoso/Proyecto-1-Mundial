@@ -3280,45 +3280,58 @@
             `;
         }
 
-        // Lógica de navegación activa en tiempo real (IntersectionObserver)
-        function initActiveNavigationObserver() {
-            const sections = document.querySelectorAll('section[id]');
+        // Estado de control para evitar interferencias entre clicks y scroll spy
+        let isScrollingFromClick = false;
+        let scrollTimeout = null;
+
+        // Función para cambiar de forma inmediata el resaltado dorado/amarillo del enlace de menú
+        function setActiveLink(targetId) {
             const navLinks = document.querySelectorAll('#main-nav a');
             const mobileLinks = document.querySelectorAll('.mobile-nav-link');
 
+            // Resaltar en escritorio
+            navLinks.forEach(l => {
+                if (l.getAttribute('href') === targetId) {
+                    l.classList.remove('text-white/80', 'border-transparent');
+                    l.classList.add('text-brandGold', 'border-brandGold');
+                } else {
+                    l.classList.remove('text-brandGold', 'border-brandGold');
+                    l.classList.add('text-white/80', 'border-transparent');
+                }
+            });
+
+            // Resaltar en móvil
+            mobileLinks.forEach(l => {
+                if (l.getAttribute('href') === targetId) {
+                    l.classList.remove('text-white/80', 'border-transparent');
+                    l.classList.add('text-brandGold', 'border-brandGold');
+                    
+                    // Desplazamiento horizontal automático para mantener centrado el item seleccionado en móvil
+                    l.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                } else {
+                    l.classList.remove('text-brandGold', 'border-brandGold');
+                    l.classList.add('text-white/80', 'border-transparent');
+                }
+            });
+        }
+
+        // Lógica de navegación activa en tiempo real al hacer scroll (IntersectionObserver)
+        function initActiveNavigationObserver() {
+            const sections = document.querySelectorAll('section[id]');
+
             const observerOptions = {
                 root: null,
-                rootMargin: '-35% 0px -55% 0px', // Determina de manera precisa qué sección domina el viewport
+                rootMargin: '-20% 0px -60% 0px', // Detecta la sección activa de forma precisa en móviles y desktops
                 threshold: 0
             };
 
             const observer = new IntersectionObserver((entries) => {
+                if (isScrollingFromClick) return; // Si la navegación fue gatillada por un click, ignoramos el detector de scroll temporalmente
+                
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const id = entry.target.getAttribute('id');
-                        const link = document.querySelector(`#main-nav a[href="#${id}"]`);
-                        const mLink = document.querySelector(`.mobile-nav-link[href="#${id}"]`);
-                        
-                        if (link) {
-                            navLinks.forEach(l => {
-                                l.classList.remove('text-brandGold', 'border-brandGold');
-                                l.classList.add('text-white/80', 'border-transparent');
-                            });
-                            link.classList.remove('text-white/80', 'border-transparent');
-                            link.classList.add('text-brandGold', 'border-brandGold');
-                        }
-
-                        if (mLink) {
-                            mobileLinks.forEach(l => {
-                                l.classList.remove('text-brandGold', 'border-brandGold');
-                                l.classList.add('text-white/80', 'border-transparent');
-                            });
-                            mLink.classList.remove('text-white/80', 'border-transparent');
-                            mLink.classList.add('text-brandGold', 'border-brandGold');
-
-                            // Auto-scroll horizontal de la barra de menú móvil para mantener el elemento activo a la vista
-                            mLink.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                        }
+                        setActiveLink('#' + id);
                     }
                 });
             }, observerOptions);
@@ -3346,6 +3359,13 @@
                     if (targetElement) {
                         e.preventDefault();
                         
+                        // Bloquear temporalmente el detector de scroll para evitar saltos en la barra
+                        isScrollingFromClick = true;
+                        clearTimeout(scrollTimeout);
+                        
+                        // Resaltar en color amarillo/dorado el elemento del menú inmediatamente al hacer click
+                        setActiveLink(targetId);
+                        
                         // Obtenemos la altura exacta del header en tiempo real (móvil o desktop)
                         const header = document.querySelector('header');
                         const headerHeight = header ? header.offsetHeight : 96;
@@ -3357,6 +3377,11 @@
                             top: offsetPosition,
                             behavior: 'smooth'
                         });
+                        
+                        // Reactivar el detector de scroll tras completar la animación
+                        scrollTimeout = setTimeout(() => {
+                            isScrollingFromClick = false;
+                        }, 800);
                     }
                 });
             });
