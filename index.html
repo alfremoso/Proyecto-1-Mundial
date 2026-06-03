@@ -420,8 +420,8 @@
                 </button>
             </div>
 
-            <!-- Grid de Partidos del Día Seleccionado -->
-            <div id="calendar-matches-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Lista de Partidos del Día Seleccionado -->
+            <div id="calendar-matches-grid" class="space-y-4">
                 <!-- Tarjetas de partidos del día seleccionado cargadas por JS -->
             </div>
             
@@ -3556,40 +3556,34 @@
                     ? `oninput="updateCalendarMatchScore('${m.id}', 'B', this.value)"`
                     : `oninput="updateCalendarPlayoffScore('${m.id}', 'B', this.value)"`;
 
-                const card = `
-                    <div class="glass-panel p-4 rounded-xl flex flex-col justify-between border border-white/10 relative overflow-hidden transition-all duration-300 hover:border-brandBlue/30 glass-card-hover">
-                        <div class="flex justify-between items-center mb-3 border-b border-white/5 pb-1">
-                            <span class="text-[10px] text-white/50 font-bold uppercase tracking-wider block">${m.label}</span>
-                            <div class="flex gap-1">${badgeHtml}</div>
+                const row = `
+                    <div class="glass-panel p-4 rounded-xl flex flex-col md:flex-row justify-between items-center gap-4 transition-all hover:border-brandBlue/30 glass-card-hover border border-white/10">
+                        <div class="text-center md:text-left">
+                            <span class="text-[10px] text-brandGold font-semibold block mb-1 uppercase tracking-wider"><i class="fa-solid fa-location-dot mr-1 text-brandGold/80"></i> ${m.estadio}</span>
+                            <div class="flex items-center gap-2 justify-center md:justify-start flex-wrap">
+                                <span class="text-[10px] text-white/50 font-bold uppercase tracking-wider">${m.label}</span>
+                                ${badgeHtml}
+                                <span class="text-xs bg-white/10 px-2.5 py-0.5 rounded text-white font-medium flex items-center"><i class="fa-solid fa-clock mr-1.5 text-white/80"></i> ${m.horaChile} Hrs</span>
+                            </div>
                         </div>
-                        
-                        <div class="space-y-3 mb-3">
+                        <div class="flex items-center justify-center gap-3 w-full md:w-auto">
                             <!-- Equipo A -->
-                            <div class="flex items-center justify-between p-2 rounded-lg border border-white/5 bg-brandGray/40">
-                                <div class="flex items-center gap-2 truncate">
-                                    ${flagImgA}
-                                    <span class="font-sans font-normal text-xs truncate">${nameA}</span>
-                                </div>
-                                <input type="number" min="0" placeholder="${placeholder}" value="${valA}" ${inputDisabled} ${changeHandler} class="w-9 h-7 bg-brandDark border border-white/20 rounded text-center font-display font-black text-xs text-brandGold focus:outline-none focus:border-brandGold transition-all">
+                            <div class="flex items-center gap-2 justify-end w-28 md:w-36">
+                                <span class="font-sans font-normal text-xs md:text-sm truncate">${nameA}</span>
+                                <div class="shrink-0">${flagImgA}</div>
                             </div>
-                            
+                            <input type="number" min="0" placeholder="${placeholder}" value="${valA}" ${inputDisabled} ${changeHandler} class="w-11 h-9 bg-brandDark border border-white/20 rounded-lg text-center font-display font-black text-base text-brandGold focus:outline-none focus:border-brandGold transition-all">
+                            <span class="text-white/30 font-bold text-xs">VS</span>
+                            <input type="number" min="0" placeholder="${placeholder}" value="${valB}" ${inputDisabled} ${changeHandlerB} class="w-11 h-9 bg-brandDark border border-white/20 rounded-lg text-center font-display font-black text-base text-brandGold focus:outline-none focus:border-brandGold transition-all">
                             <!-- Equipo B -->
-                            <div class="flex items-center justify-between p-2 rounded-lg border border-white/5 bg-brandGray/40">
-                                <div class="flex items-center gap-2 truncate">
-                                    ${flagImgB}
-                                    <span class="font-sans font-normal text-xs truncate">${nameB}</span>
-                                </div>
-                                <input type="number" min="0" placeholder="${placeholder}" value="${valB}" ${inputDisabled} ${changeHandlerB} class="w-9 h-7 bg-brandDark border border-white/20 rounded text-center font-display font-black text-xs text-brandGold focus:outline-none focus:border-brandGold transition-all">
+                            <div class="flex items-center gap-2 justify-start w-28 md:w-36">
+                                <div class="shrink-0">${flagImgB}</div>
+                                <span class="font-sans font-normal text-xs md:text-sm truncate">${nameB}</span>
                             </div>
-                        </div>
-
-                        <div class="flex justify-between text-[9px] text-white/40 font-semibold uppercase tracking-wider">
-                            <span><i class="fa-solid fa-clock mr-1 text-brandBlue"></i>${m.horaChile} Hrs</span>
-                            <span class="truncate max-w-[150px]"><i class="fa-solid fa-location-dot mr-1 text-brandGold"></i>${m.estadio}</span>
                         </div>
                     </div>
                 `;
-                grid.innerHTML += card;
+                grid.innerHTML += row;
             });
         }
 
