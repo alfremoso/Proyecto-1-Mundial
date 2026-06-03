@@ -3098,7 +3098,7 @@
             SUI: { dt: "Murat Yakin", player: "Granit Xhaka", age: 33, birth: "27/09/1992", pos: "Mediocampista", wcs: "4 (2014, 2018, 2022, 2026)", colors: ['#DA291C', '#A81E15', '#FFFFFF'] },
             QAT: { dt: "Tintín Márquez", player: "Akram Afif", age: 29, birth: "18/11/1996", pos: "Delantero", wcs: "2 (2022, 2026)", colors: ['#8A1538', '#5F0A22', '#FFFFFF'] },
             BIH: { dt: "Sergej Barbarez", player: "Edin Džeko", age: 40, birth: "17/03/1986", pos: "Delantero", wcs: "2 (2014, 2026)", colors: ['#002F6C', '#1E4287', '#FFCD00'] },
-            BRA: { dt: "Carlo Ancelotti", dtImg: "assets/Entrenador_Brasil.avif", player: "Vinícius Júnior", playerImg: "assets/vinicius.jpg", age: 25, birth: "12/07/2000", pos: "Delantero", wcs: "2 (2022, 2026)", colors: ['#009B3A', '#007A2E', '#FEDF00'] },
+            BRA: { dt: "Carlo Ancelotti", dtImg: "assets/Entrenador_Brasil.avif", player: "Vinícius Júnior", playerImg: "assets/Vinicius.jpg", playerImgPosition: "object-top", age: 25, birth: "12/07/2000", pos: "Delantero", wcs: "2 (2022, 2026)", colors: ['#009B3A', '#007A2E', '#FEDF00'] },
             MAR: { dt: "Walid Regragui", player: "Achraf Hakimi", age: 27, birth: "04/11/1998", pos: "Lateral Derecho", wcs: "3 (2018, 2022, 2026)", colors: ['#C1272D', '#8C1B1E', '#006233'] },
             SCO: { dt: "Steve Clarke", player: "Andrew Robertson", age: 32, birth: "11/03/1994", pos: "Lateral Izquierdo", wcs: "1 (2026)", colors: ['#005EB8', '#003A70', '#FFFFFF'] },
             HAI: { dt: "Sébastien Migné", player: "Duckens Nazon", age: 32, birth: "07/04/1994", pos: "Delantero", wcs: "1 (2026)", colors: ['#00209F', '#D21034', '#FFFFFF'] },
@@ -3289,8 +3289,9 @@
                 ? "relative flex items-center justify-center bg-black/15 border border-white/15 rounded-full w-36 h-36 overflow-hidden" 
                 : "relative flex items-center justify-center bg-black/15 border border-white/15 rounded-full p-4 w-36 h-36 overflow-hidden";
 
+            const playerImgPos = profile.playerImgPosition || 'object-center';
             const playerImageHtml = profile.playerImg 
-                ? `<img src="${profile.playerImg}" class="w-full h-full object-cover" alt="${profile.player}">` 
+                ? `<img src="${profile.playerImg}" class="w-full h-full object-cover ${playerImgPos}" alt="${profile.player}">` 
                 : playerSvg;
             const playerWrapperClass = profile.playerImg 
                 ? "relative flex items-center justify-center bg-black/15 border border-white/15 rounded-full w-36 h-36 overflow-hidden" 
