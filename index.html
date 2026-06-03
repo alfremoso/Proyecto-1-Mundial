@@ -761,28 +761,54 @@
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Beneficio 1 -->
-                <div class="bg-white border border-sky-400/80 p-8 rounded-2xl shadow-lg hover:border-brandBlue/50 transition-all group">
-                    <div class="w-12 h-12 rounded-xl bg-brandBlue/10 flex items-center justify-center text-brandBlue text-2xl mb-6 group-hover:bg-brandBlue group-hover:text-white transition-all">
-                        <i class="fa-solid fa-calculator"></i>
+                <div class="relative overflow-hidden border border-sky-500/30 p-8 rounded-2xl shadow-xl hover:border-brandBlue/60 hover:shadow-brandBlue/10 transition-all group duration-300">
+                    <!-- Background image with zoom on hover -->
+                    <div class="absolute inset-0 bg-cover bg-center z-0 transition-transform duration-500 group-hover:scale-105" style="background-image: url('assets/stadium_bg.jpg');"></div>
+                    <!-- Premium dark gradient overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900/80 to-slate-950/95 z-0"></div>
+                    
+                    <!-- Content -->
+                    <div class="relative z-10">
+                        <div class="w-12 h-12 rounded-xl bg-brandBlue/20 border border-brandBlue/30 flex items-center justify-center text-brandBlue text-2xl mb-6 group-hover:bg-brandBlue group-hover:text-white group-hover:border-transparent transition-all">
+                            <i class="fa-solid fa-calculator"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-xl mb-3 text-white">Algoritmo FIFA Oficial</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">Calcula al instante aplicando criteria estrictos de puntos, diferencia de goles, goles anotados y duelos directos.</p>
                     </div>
-                    <h3 class="font-display font-bold text-xl mb-3 text-slate-800">Algoritmo FIFA Oficial</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">Calcula al instante aplicando criteria estrictos de puntos, diferencia de goles, goles anotados y duelos directos.</p>
                 </div>
+                
                 <!-- Beneficio 2 -->
-                <div class="bg-white border border-sky-400/80 p-8 rounded-2xl shadow-lg hover:border-brandGold/50 transition-all group">
-                    <div class="w-12 h-12 rounded-xl bg-brandGold/10 flex items-center justify-center text-brandGold text-2xl mb-6 group-hover:bg-brandGold group-hover:text-brandDark transition-all">
-                        <i class="fa-solid fa-earth-americas"></i>
+                <div class="relative overflow-hidden border border-sky-500/30 p-8 rounded-2xl shadow-xl hover:border-brandGold/60 hover:shadow-brandGold/10 transition-all group duration-300">
+                    <!-- Background image with zoom on hover -->
+                    <div class="absolute inset-0 bg-cover bg-center z-0 transition-transform duration-500 group-hover:scale-105" style="background-image: url('assets/stadium_bg.jpg');"></div>
+                    <!-- Premium dark gradient overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900/80 to-slate-950/95 z-0"></div>
+                    
+                    <!-- Content -->
+                    <div class="relative z-10">
+                        <div class="w-12 h-12 rounded-xl bg-brandGold/20 border border-brandGold/30 flex items-center justify-center text-brandGold text-2xl mb-6 group-hover:bg-brandGold group-hover:text-brandDark group-hover:border-transparent transition-all">
+                            <i class="fa-solid fa-earth-americas"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-xl mb-3 text-white">Huso Horario Chileno</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">Incluye la conversión automática de todos los partidos jugados en Canadá, EE.UU. o México a hora de Chile (UTC-4).</p>
                     </div>
-                    <h3 class="font-display font-bold text-xl mb-3 text-slate-800">Huso Horario Chileno</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">Incluye la conversión automática de todos los partidos jugados en Canadá, EE.UU. o México a hora de Chile (UTC-4).</p>
                 </div>
+                
                 <!-- Beneficio 3 -->
-                <div class="bg-white border border-sky-400/80 p-8 rounded-2xl shadow-lg hover:border-green-500/50 transition-all group">
-                    <div class="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center text-green-500 text-2xl mb-6 group-hover:bg-green-500 group-hover:text-white transition-all">
-                        <i class="fa-solid fa-award"></i>
+                <div class="relative overflow-hidden border border-sky-500/30 p-8 rounded-2xl shadow-xl hover:border-green-500/60 hover:shadow-green-500/10 transition-all group duration-300">
+                    <!-- Background image with zoom on hover -->
+                    <div class="absolute inset-0 bg-cover bg-center z-0 transition-transform duration-500 group-hover:scale-105" style="background-image: url('assets/stadium_bg.jpg');"></div>
+                    <!-- Premium dark gradient overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900/80 to-slate-950/95 z-0"></div>
+                    
+                    <!-- Content -->
+                    <div class="relative z-10">
+                        <div class="w-12 h-12 rounded-xl bg-green-500/20 border border-green-500/30 flex items-center justify-center text-green-500 text-2xl mb-6 group-hover:bg-green-500 group-hover:text-white group-hover:border-transparent transition-all">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-xl mb-3 text-white">Ranking de Campeones</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">Suma puntos con tus aciertos y compite de forma amistosa en el ranking global para ganar premios premium de merchandising deportivo.</p>
                     </div>
-                    <h3 class="font-display font-bold text-xl mb-3 text-slate-800">Ranking de Campeones</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">Suma puntos con tus aciertos y compite de forma amistosa en el ranking global para ganar premios premium de merchandising deportivo.</p>
                 </div>
             </div>
         </div>
