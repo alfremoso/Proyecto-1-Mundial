@@ -37,9 +37,9 @@
             scroll-behavior: smooth;
             scroll-padding-top: 80px; /* Evita que el menú de navegación sticky cubra los títulos de las secciones en desktop */
         }
-        @media (max-width: 767px) {
+        @media (max-width: 1023px) {
             html {
-                scroll-padding-top: 124px; /* Mayor padding para móvil, considerando la fila de navegación horizontal extra */
+                scroll-padding-top: 124px; /* Mayor padding para móvil/tablet, considerando la fila de navegación horizontal extra */
             }
         }
         body { font-family: 'Inter', sans-serif; background-color: #0d3263; color: #FFFFFF; }
@@ -204,38 +204,38 @@
         </div>
     </div>
 
-    <header class="sticky top-0 z-50 bg-brandDark/90 backdrop-blur-md border-b border-white/10 px-4 lg:px-8 py-3.5 transition-all">
+    <header class="sticky top-0 z-50 bg-brandDark/90 backdrop-blur-md border-b border-white/10 px-4 lg:px-6 py-3.5 transition-all">
         <!-- Fila Principal (Logo y Botón Guardar) -->
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <a href="#" class="flex items-center gap-3">
-                <img src="assets/logo_mundial.png" class="h-12 lg:h-18 w-auto object-contain rounded-md" alt="Logo oficial FIFA 2026">
-                <span class="font-display font-black text-sm sm:text-lg lg:text-xl tracking-wider bg-gradient-to-r from-white via-brandGold to-white bg-clip-text text-transparent truncate max-w-[140px] sm:max-w-none">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4 xl:gap-8">
+            <a href="#" class="flex items-center gap-2 sm:gap-3 shrink-0">
+                <img src="assets/logo_mundial.png" class="h-9 sm:h-11 xl:h-12 w-auto object-contain rounded-md" alt="Logo oficial FIFA 2026">
+                <span class="font-display font-black text-sm sm:text-base xl:text-lg tracking-wider bg-gradient-to-r from-white via-brandGold to-white bg-clip-text text-transparent shrink-0 whitespace-nowrap">
                     FIFA 2026 SIMULATOR
                 </span>
             </a>
             
-            <!-- Menú de Escritorio (Oculto en Móvil) -->
-            <nav id="main-nav" class="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wide">
-                <a href="#simulador" class="hover:text-brandGold transition-colors text-brandGold border-b-2 border-brandGold pb-1">Grupos</a>
-                <a href="#calendario-section" class="hover:text-brandGold transition-colors text-white/80 border-b-2 border-transparent pb-1">Calendario</a>
-                <a href="#mejores-terceros-sec" class="hover:text-brandGold transition-colors text-white/80 border-b-2 border-transparent pb-1">Mejores Terceros</a>
-                <a href="#selecciones-section" class="hover:text-brandGold transition-colors text-white/80 border-b-2 border-transparent pb-1">Selecciones</a>
-                <a href="#knockout-section" class="hover:text-brandGold transition-colors text-white/80 border-b-2 border-transparent pb-1">Fase Final</a>
-                <a href="#historial-section" class="hover:text-brandGold transition-colors text-white/80 border-b-2 border-transparent pb-1">Historial</a>
-                <a href="#beneficios" class="hover:text-brandGold transition-colors text-white/80 border-b-2 border-transparent pb-1">Beneficios</a>
-                <a href="#premios-section" class="hover:text-brandGold transition-colors text-white/80 border-b-2 border-transparent pb-1">Premios</a>
+            <!-- Menú de Escritorio (Oculto en Tablet y Celular) -->
+            <nav id="main-nav" class="hidden lg:flex items-center gap-3.5 xl:gap-6 text-xs xl:text-sm font-semibold tracking-wide shrink-0">
+                <a href="#simulador" class="hover:text-brandGold transition-colors text-brandGold border-b-2 border-brandGold pb-1 whitespace-nowrap">Grupos</a>
+                <a href="#calendario-section" class="hover:text-brandGold transition-colors text-white/80 border-b-2 border-transparent pb-1 whitespace-nowrap">Calendario</a>
+                <a href="#mejores-terceros-sec" class="hover:text-brandGold transition-colors text-white/80 border-b-2 border-transparent pb-1 whitespace-nowrap">Mejores Terceros</a>
+                <a href="#selecciones-section" class="hover:text-brandGold transition-colors text-white/80 border-b-2 border-transparent pb-1 whitespace-nowrap">Selecciones</a>
+                <a href="#knockout-section" class="hover:text-brandGold transition-colors text-white/80 border-b-2 border-transparent pb-1 whitespace-nowrap">Fase Final</a>
+                <a href="#historial-section" class="hover:text-brandGold transition-colors text-white/80 border-b-2 border-transparent pb-1 whitespace-nowrap">Historial</a>
+                <a href="#beneficios" class="hover:text-brandGold transition-colors text-white/80 border-b-2 border-transparent pb-1 whitespace-nowrap">Beneficios</a>
+                <a href="#premios-section" class="hover:text-brandGold transition-colors text-white/80 border-b-2 border-transparent pb-1 whitespace-nowrap">Premios</a>
             </nav>
             
-            <div class="flex items-center gap-2">
-                <a href="#registro" class="bg-brandGold hover:bg-yellow-400 text-brandDark text-[10px] sm:text-xs lg:text-sm font-bold px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full transition-all tracking-wider uppercase shadow-[0_0_15px_rgba(255,215,0,0.3)] whitespace-nowrap">
+            <div class="flex items-center gap-2 shrink-0">
+                <a href="#registro" class="bg-brandGold hover:bg-yellow-400 text-brandDark text-[10px] sm:text-xs xl:text-sm font-bold px-3.5 sm:px-4 sm:py-2 xl:px-5 xl:py-2.5 rounded-full transition-all tracking-wider uppercase shadow-[0_0_15px_rgba(255,215,0,0.3)] whitespace-nowrap">
                     <span class="hidden sm:inline">Guardar Predicción</span>
                     <span class="inline sm:hidden">Guardar</span>
                 </a>
             </div>
         </div>
 
-        <!-- Menú de Navegación Horizontal Desplazable para Celulares (Siempre visible en celular) -->
-        <div class="md:hidden mt-3 pt-2.5 border-t border-white/10 overflow-x-auto scrollbar-none scroll-smooth">
+        <!-- Menú de Navegación Horizontal Desplazable para Celulares/Tablets (Siempre visible en celular/tablet) -->
+        <div class="lg:hidden mt-3 pt-2.5 border-t border-white/10 overflow-x-auto scrollbar-none scroll-smooth">
             <nav id="mobile-nav" class="flex gap-6 text-[10px] font-bold uppercase tracking-wider px-2">
                 <a href="#simulador" class="mobile-nav-link text-brandGold border-b-2 border-brandGold pb-1.5 shrink-0 transition-all">Grupos</a>
                 <a href="#calendario-section" class="mobile-nav-link text-white/80 border-b-2 border-transparent pb-1.5 shrink-0 transition-all">Calendario</a>
