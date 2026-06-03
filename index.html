@@ -3335,6 +3335,31 @@
             initHistoryExplorer();
             initActiveNavigationObserver();
             initSeleccionesSection();
+
+            // Manejador de desplazamiento suave para todos los enlaces internos (#)
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#' || targetId === '') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        
+                        // Obtenemos la altura exacta del header en tiempo real (móvil o desktop)
+                        const header = document.querySelector('header');
+                        const headerHeight = header ? header.offsetHeight : 96;
+                        
+                        const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+                        const offsetPosition = elementPosition - headerHeight;
+                        
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
         });
     </script>
 </body>
