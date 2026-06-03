@@ -217,6 +217,7 @@
             <!-- Menú de Escritorio (Oculto en Móvil) -->
             <nav id="main-nav" class="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wide">
                 <a href="#simulador" class="hover:text-brandGold transition-colors text-brandGold border-b-2 border-brandGold pb-1">Grupos</a>
+                <a href="#calendario-section" class="hover:text-brandGold transition-colors text-white/80 border-b-2 border-transparent pb-1">Calendario</a>
                 <a href="#mejores-terceros-sec" class="hover:text-brandGold transition-colors text-white/80 border-b-2 border-transparent pb-1">Mejores Terceros</a>
                 <a href="#selecciones-section" class="hover:text-brandGold transition-colors text-white/80 border-b-2 border-transparent pb-1">Selecciones</a>
                 <a href="#knockout-section" class="hover:text-brandGold transition-colors text-white/80 border-b-2 border-transparent pb-1">Fase Final</a>
@@ -237,6 +238,7 @@
         <div class="md:hidden mt-3 pt-2.5 border-t border-white/10 overflow-x-auto scrollbar-none scroll-smooth">
             <nav id="mobile-nav" class="flex gap-6 text-[10px] font-bold uppercase tracking-wider px-2">
                 <a href="#simulador" class="mobile-nav-link text-brandGold border-b-2 border-brandGold pb-1.5 shrink-0 transition-all">Grupos</a>
+                <a href="#calendario-section" class="mobile-nav-link text-white/80 border-b-2 border-transparent pb-1.5 shrink-0 transition-all">Calendario</a>
                 <a href="#mejores-terceros-sec" class="mobile-nav-link text-white/80 border-b-2 border-transparent pb-1.5 shrink-0 transition-all">Mejores Terceros</a>
                 <a href="#selecciones-section" class="mobile-nav-link text-white/80 border-b-2 border-transparent pb-1.5 shrink-0 transition-all">Selecciones</a>
                 <a href="#knockout-section" class="mobile-nav-link text-white/80 border-b-2 border-transparent pb-1.5 shrink-0 transition-all">Fase Final</a>
@@ -385,6 +387,53 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: CALENDARIO DE PARTIDOS -->
+    <section id="calendario-section" class="py-16 bg-brandDark relative z-10 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-10">
+                <span class="text-xs font-bold text-brandBlue uppercase tracking-widest">Calendario Oficial</span>
+                <h2 class="font-display font-black text-3xl md:text-5xl uppercase mt-2">Día a Día del Mundial</h2>
+                <p class="text-white/60 text-sm max-w-xl mx-auto mt-2">
+                    Selecciona una fecha entre el 11 de junio y el 19 de julio de 2026 para ver y registrar marcadores de los partidos programados para ese día.
+                </p>
+            </div>
+
+            <!-- Selector de Fechas (Timeline Horizontal Desplazable) -->
+            <div class="relative flex items-center bg-brandGray/30 border border-white/10 p-3 rounded-2xl mb-8">
+                <!-- Flecha izquierda -->
+                <button onclick="scrollCalendarBar(-150)" class="w-10 h-10 flex items-center justify-center text-white/60 hover:text-brandGold transition-colors shrink-0 bg-brandDark/50 border border-white/5 rounded-xl hover:border-brandGold/30 mr-2" aria-label="Desplazar fechas a la izquierda">
+                    <i class="fa-solid fa-chevron-left text-sm"></i>
+                </button>
+                
+                <!-- Contenedor scrollable de fechas -->
+                <div id="calendar-dates-bar" class="flex gap-2.5 overflow-x-auto scroll-smooth py-1 px-1 select-none w-full scrollbar-none" style="-ms-overflow-style: none; scrollbar-width: none;">
+                    <!-- Botones de fechas dinámicos -->
+                </div>
+                
+                <!-- Flecha derecha -->
+                <button onclick="scrollCalendarBar(150)" class="w-10 h-10 flex items-center justify-center text-white/60 hover:text-brandGold transition-colors shrink-0 bg-brandDark/50 border border-white/5 rounded-xl hover:border-brandGold/30 ml-2" aria-label="Desplazar fechas a la derecha">
+                    <i class="fa-solid fa-chevron-right text-sm"></i>
+                </button>
+            </div>
+
+            <!-- Grid de Partidos del Día Seleccionado -->
+            <div id="calendar-matches-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Tarjetas de partidos del día seleccionado cargadas por JS -->
+            </div>
+            
+            <!-- Mensaje si no hay partidos -->
+            <div id="calendar-empty-state" class="hidden glass-panel p-10 rounded-2xl text-center max-w-md mx-auto space-y-3">
+                <div class="text-white/30 text-4xl">
+                    <i class="fa-solid fa-calendar-day"></i>
+                </div>
+                <h4 class="font-display font-bold text-lg text-white">Día de Descanso / Preparación</h4>
+                <p class="text-white/60 text-xs leading-relaxed">
+                    No hay partidos programados para esta fecha. Los equipos aprovechan este día para viajar o entrenar.
+                </p>
             </div>
         </div>
     </section>
@@ -1090,6 +1139,46 @@
         let matches = []; // Lista de todos los 72 partidos de grupos
         let knockoutRound = 'r32'; // Ronda seleccionada (r32, r16, qf, sf)
         let knockoutMatches = {}; // Marcadores y resultados del playoff interactivo
+        let currentCalendarDate = '2026-06-11';
+        let calendarDates = [];
+
+        const knockoutMeta = {
+            r32_1: { date: '2026-06-28', label: 'Dieciseisavos de Final', time: '15:00', stadium: 'SoFi Stadium, Los Angeles' },
+            r32_2: { date: '2026-06-28', label: 'Dieciseisavos de Final', time: '18:00', stadium: 'MetLife Stadium, New York/NJ' },
+            r32_3: { date: '2026-06-28', label: 'Dieciseisavos de Final', time: '21:00', stadium: 'Estadio Azteca, CDMX' },
+            r32_4: { date: '2026-06-29', label: 'Dieciseisavos de Final', time: '15:00', stadium: 'BC Place, Vancouver' },
+            r32_5: { date: '2026-06-29', label: 'Dieciseisavos de Final', time: '18:00', stadium: 'Hard Rock Stadium, Miami' },
+            r32_6: { date: '2026-06-29', label: 'Dieciseisavos de Final', time: '21:00', stadium: 'Mercedes-Benz Stadium, Atlanta' },
+            r32_7: { date: '2026-06-30', label: 'Dieciseisavos de Final', time: '15:00', stadium: 'Gillette Stadium, Boston' },
+            r32_8: { date: '2026-06-30', label: 'Dieciseisavos de Final', time: '18:00', stadium: 'Lincoln Financial Field, Philadelphia' },
+            r32_9: { date: '2026-06-30', label: 'Dieciseisavos de Final', time: '21:00', stadium: 'NRG Stadium, Houston' },
+            r32_10: { date: '2026-07-01', label: 'Dieciseisavos de Final', time: '15:00', stadium: 'AT&T Stadium, Dallas' },
+            r32_11: { date: '2026-07-01', label: 'Dieciseisavos de Final', time: '18:00', stadium: 'Arrowhead Stadium, Kansas City' },
+            r32_12: { date: '2026-07-01', label: 'Dieciseisavos de Final', time: '21:00', stadium: 'Levi\'s Stadium, San Francisco' },
+            r32_13: { date: '2026-07-02', label: 'Dieciseisavos de Final', time: '16:00', stadium: 'BBVA Stadium, Monterrey' },
+            r32_14: { date: '2026-07-02', label: 'Dieciseisavos de Final', time: '20:00', stadium: 'Estadio Guadalajara, Guadalajara' },
+            r32_15: { date: '2026-07-03', label: 'Dieciseisavos de Final', time: '16:00', stadium: 'BMO Field, Toronto' },
+            r32_16: { date: '2026-07-03', label: 'Dieciseisavos de Final', time: '20:00', stadium: 'SoFi Stadium, Los Angeles' },
+
+            r16_1: { date: '2026-07-04', label: 'Octavos de Final', time: '16:00', stadium: 'MetLife Stadium, New York/NJ' },
+            r16_2: { date: '2026-07-04', label: 'Octavos de Final', time: '20:00', stadium: 'BC Place, Vancouver' },
+            r16_3: { date: '2026-07-05', label: 'Octavos de Final', time: '16:00', stadium: 'Estadio Azteca, CDMX' },
+            r16_4: { date: '2026-07-05', label: 'Octavos de Final', time: '20:00', stadium: 'Hard Rock Stadium, Miami' },
+            r16_5: { date: '2026-07-06', label: 'Octavos de Final', time: '16:00', stadium: 'Mercedes-Benz Stadium, Atlanta' },
+            r16_6: { date: '2026-07-06', label: 'Octavos de Final', time: '20:00', stadium: 'NRG Stadium, Houston' },
+            r16_7: { date: '2026-07-07', label: 'Octavos de Final', time: '16:00', stadium: 'AT&T Stadium, Dallas' },
+            r16_8: { date: '2026-07-07', label: 'Octavos de Final', time: '20:00', stadium: 'SoFi Stadium, Los Angeles' },
+
+            qf_1: { date: '2026-07-09', label: 'Cuartos de Final', time: '18:00', stadium: 'Gillette Stadium, Boston' },
+            qf_2: { date: '2026-07-10', label: 'Cuartos de Final', time: '18:00', stadium: 'Mercedes-Benz Stadium, Atlanta' },
+            qf_3: { date: '2026-07-10', label: 'Cuartos de Final', time: '21:00', stadium: 'Hard Rock Stadium, Miami' },
+            qf_4: { date: '2026-07-11', label: 'Cuartos de Final', time: '18:00', stadium: 'MetLife Stadium, New York/NJ' },
+
+            sf_1: { date: '2026-07-14', label: 'Semifinal', time: '20:00', stadium: 'AT&T Stadium, Dallas' },
+            sf_2: { date: '2026-07-15', label: 'Semifinal', time: '20:00', stadium: 'Mercedes-Benz Stadium, Atlanta' },
+
+            final: { date: '2026-07-19', label: 'Gran Final 🏆', time: '20:00', stadium: 'MetLife Stadium, New York/NJ' }
+        };
 
         // Inicialización base
         function initData() {
@@ -1137,7 +1226,8 @@
                         golesB: null,
                         estadio: stadium.name + ", " + stadium.city,
                         horaChile: mt.time,
-                        fecha: `${day} de junio de 2026`
+                        fecha: `${day} de junio de 2026`,
+                        fechaISO: `2026-06-${String(day).padStart(2, '0')}` // Campo ISO agregado para búsquedas sencillas
                     });
                 });
             }
@@ -1235,6 +1325,7 @@
             renderTable();
             renderThirdsTable();
             updateKnockoutEligibility();
+            renderCalendarMatches();
         }
 
         // Recálculo completo de estadísticas
@@ -1418,6 +1509,7 @@
             renderTable();
             renderThirdsTable();
             updateKnockoutEligibility();
+            renderCalendarMatches();
         }
 
         // Reiniciar Grupo Activo
@@ -1433,6 +1525,7 @@
             renderTable();
             renderThirdsTable();
             updateKnockoutEligibility();
+            renderCalendarMatches();
         }
 
         // Auto-Simular los 72 partidos del torneo completo
@@ -1449,6 +1542,7 @@
             renderTable();
             renderThirdsTable();
             updateKnockoutEligibility();
+            renderCalendarMatches();
             
             // Navegar automáticamente a la fase final
             document.getElementById('knockout-section').scrollIntoView({ behavior: 'smooth' });
@@ -1640,6 +1734,7 @@
             else m.golesB = intVal;
 
             determinePlayoffWinner(matchKey);
+            renderCalendarMatches();
         }
 
         // Determinar ganador en base a los marcadores
@@ -1690,6 +1785,7 @@
             m.w = selectedTeam;
             propagatePlayoffWinner(matchKey, selectedTeam);
             renderKnockoutMatches();
+            renderCalendarMatches();
         }
 
         // Propagar ganador de playoffs a la siguiente ronda
@@ -1834,6 +1930,7 @@
                 }
             }
             renderKnockoutMatches();
+            renderCalendarMatches();
         }
 
         // Simular partido individual en playoffs rompiendo empates de forma realista
@@ -1970,6 +2067,7 @@
 
             knockoutRound = 'r32';
             knockoutMatches = {};
+            renderCalendarMatches();
         }
 
         // Manejo de envío de datos del Overlay de Autenticación
@@ -2648,6 +2746,7 @@
             renderKnockoutMatches();
             renderCoachesTable();
             renderActiveProfileCard();
+            renderCalendarMatches();
 
             if (!silent) {
                 alert(`🎮 ¡Simulación de ${c.name} cargada con éxito en el tablero!`);
@@ -3280,6 +3379,256 @@
             `;
         }
 
+        // --- 8. CALENDARIO DE PARTIDOS DÍA A DÍA ---
+
+        function getDayName(year, month, day) {
+            const date = new Date(year, month, day);
+            const days = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+            return days[date.getDay()];
+        }
+
+        function initCalendar() {
+            calendarDates = [];
+            
+            // Junio 11 al 30
+            for (let d = 11; d <= 30; d++) {
+                calendarDates.push({
+                    iso: `2026-06-${String(d).padStart(2, '0')}`,
+                    label: `${d} Jun`,
+                    dayName: getDayName(2026, 5, d)
+                });
+            }
+            
+            // Julio 1 al 19
+            for (let d = 1; d <= 19; d++) {
+                calendarDates.push({
+                    iso: `2026-07-${String(d).padStart(2, '0')}`,
+                    label: `${d} Jul`,
+                    dayName: getDayName(2026, 6, d)
+                });
+            }
+
+            renderCalendarDates();
+            selectCalendarDate('2026-06-11');
+        }
+
+        function renderCalendarDates() {
+            const container = document.getElementById('calendar-dates-bar');
+            if (!container) return;
+            container.innerHTML = '';
+
+            calendarDates.forEach(date => {
+                const active = date.iso === currentCalendarDate;
+                const activeClass = active
+                    ? "bg-brandGold text-brandDark shadow-[0_0_15px_rgba(255,215,0,0.3)] border-brandGold"
+                    : "bg-brandGray/50 border-white/10 hover:border-brandGold/40 text-white";
+
+                const btn = `
+                    <button onclick="selectCalendarDate('${date.iso}')" id="cal-btn-${date.iso}" class="px-4 py-2.5 rounded-xl border font-display transition-all flex flex-col items-center min-w-[72px] shrink-0 ${activeClass}">
+                        <span class="text-[9px] font-bold uppercase opacity-60">${date.dayName}</span>
+                        <span class="text-sm font-black mt-0.5">${date.label}</span>
+                    </button>
+                `;
+                container.innerHTML += btn;
+            });
+        }
+
+        function selectCalendarDate(isoDate) {
+            // Deseleccionar el botón anterior
+            const prevBtn = document.getElementById(`cal-btn-${currentCalendarDate}`);
+            if (prevBtn) {
+                prevBtn.className = prevBtn.className.replace("bg-brandGold text-brandDark shadow-[0_0_15px_rgba(255,215,0,0.3)] border-brandGold", "bg-brandGray/50 border-white/10 hover:border-brandGold/40 text-white");
+            }
+
+            currentCalendarDate = isoDate;
+            
+            // Seleccionar el nuevo botón
+            const nextBtn = document.getElementById(`cal-btn-${isoDate}`);
+            if (nextBtn) {
+                nextBtn.className = nextBtn.className.replace("bg-brandGray/50 border-white/10 hover:border-brandGold/40 text-white", "bg-brandGold text-brandDark shadow-[0_0_15px_rgba(255,215,0,0.3)] border-brandGold");
+                // Auto-scroll para mantener a la vista el botón seleccionado
+                nextBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+
+            renderCalendarMatches();
+        }
+
+        function scrollCalendarBar(offset) {
+            const container = document.getElementById('calendar-dates-bar');
+            if (container) {
+                container.scrollLeft += offset;
+            }
+        }
+
+        function getMatchesByDate(isoDate) {
+            const result = [];
+            
+            // 1. Partidos de fase de grupos
+            const groupMatches = matches.filter(m => m.fechaISO === isoDate);
+            groupMatches.forEach(m => {
+                const teamA = teams.find(t => t.id === m.teamAId);
+                const teamB = teams.find(t => t.id === m.teamBId);
+                result.push({
+                    type: 'group',
+                    id: m.id,
+                    grupo: m.grupo,
+                    label: `Grupo ${m.grupo} - Jornada ${m.jornada}`,
+                    teamA: teamA,
+                    teamB: teamB,
+                    golesA: m.golesA,
+                    golesB: m.golesB,
+                    estadio: m.estadio,
+                    horaChile: m.horaChile,
+                    disabled: false
+                });
+            });
+
+            // 2. Partidos de playoffs
+            for (let key in knockoutMeta) {
+                const meta = knockoutMeta[key];
+                if (meta.date === isoDate) {
+                    const m = knockoutMatches[key]; // Puede ser undefined si aún no se genera
+                    result.push({
+                        type: 'knockout',
+                        id: key,
+                        grupo: null,
+                        label: meta.label,
+                        teamA: m && m.tA ? m.tA : null,
+                        teamB: m && m.tB ? m.tB : null,
+                        golesA: m ? m.golesA : null,
+                        golesB: m ? m.golesB : null,
+                        estadio: meta.stadium,
+                        horaChile: meta.time,
+                        disabled: !m // Deshabilitado si no se ha desbloqueado la fase
+                    });
+                }
+            }
+
+            return result;
+        }
+
+        function renderCalendarMatches() {
+            const grid = document.getElementById('calendar-matches-grid');
+            const emptyState = document.getElementById('calendar-empty-state');
+            if (!grid || !emptyState) return;
+            
+            grid.innerHTML = '';
+
+            const dayMatches = getMatchesByDate(currentCalendarDate);
+
+            if (dayMatches.length === 0) {
+                grid.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            grid.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+
+            dayMatches.forEach(m => {
+                const nameA = m.teamA ? m.teamA.nombre : "Pendiente";
+                const flagImgA = m.teamA ? `<img src="https://flagcdn.com/w40/${m.teamA.code}.png" class="w-6 h-4 object-cover rounded shadow-sm border border-white/25 inline-block" alt="${m.teamA.nombre}">` : "❔";
+                const nameB = m.teamB ? m.teamB.nombre : "Pendiente";
+                const flagImgB = m.teamB ? `<img src="https://flagcdn.com/w40/${m.teamB.code}.png" class="w-6 h-4 object-cover rounded shadow-sm border border-white/25 inline-block" alt="${m.teamB.nombre}">` : "❔";
+
+                const valA = m.golesA !== null ? m.golesA : '';
+                const valB = m.golesB !== null ? m.golesB : '';
+
+                const inputDisabled = m.disabled ? 'disabled' : '';
+                const placeholder = m.disabled ? '-' : '0';
+
+                let badgeHtml = '';
+                if (m.type === 'group') {
+                    badgeHtml = `<span class="text-[9px] bg-brandBlue/15 text-brandBlue px-2 py-0.5 rounded font-mono font-bold uppercase">Grupo ${m.grupo}</span>`;
+                } else {
+                    badgeHtml = `<span class="text-[9px] bg-brandGold/15 text-brandGold px-2 py-0.5 rounded font-mono font-bold uppercase">Playoffs</span>`;
+                }
+
+                if (m.disabled) {
+                    badgeHtml += `<span class="text-[9px] bg-red-500/15 text-red-400 px-2 py-0.5 rounded font-mono font-bold uppercase ml-1 animate-pulse">Bloqueado</span>`;
+                }
+
+                const changeHandler = m.type === 'group'
+                    ? `oninput="updateCalendarMatchScore('${m.id}', 'A', this.value)"`
+                    : `oninput="updateCalendarPlayoffScore('${m.id}', 'A', this.value)"`;
+
+                const changeHandlerB = m.type === 'group'
+                    ? `oninput="updateCalendarMatchScore('${m.id}', 'B', this.value)"`
+                    : `oninput="updateCalendarPlayoffScore('${m.id}', 'B', this.value)"`;
+
+                const card = `
+                    <div class="glass-panel p-4 rounded-xl flex flex-col justify-between border border-white/10 relative overflow-hidden transition-all duration-300 hover:border-brandBlue/30 glass-card-hover">
+                        <div class="flex justify-between items-center mb-3 border-b border-white/5 pb-1">
+                            <span class="text-[10px] text-white/50 font-bold uppercase tracking-wider block">${m.label}</span>
+                            <div class="flex gap-1">${badgeHtml}</div>
+                        </div>
+                        
+                        <div class="space-y-3 mb-3">
+                            <!-- Equipo A -->
+                            <div class="flex items-center justify-between p-2 rounded-lg border border-white/5 bg-brandGray/40">
+                                <div class="flex items-center gap-2 truncate">
+                                    ${flagImgA}
+                                    <span class="font-sans font-normal text-xs truncate">${nameA}</span>
+                                </div>
+                                <input type="number" min="0" placeholder="${placeholder}" value="${valA}" ${inputDisabled} ${changeHandler} class="w-9 h-7 bg-brandDark border border-white/20 rounded text-center font-display font-black text-xs text-brandGold focus:outline-none focus:border-brandGold transition-all">
+                            </div>
+                            
+                            <!-- Equipo B -->
+                            <div class="flex items-center justify-between p-2 rounded-lg border border-white/5 bg-brandGray/40">
+                                <div class="flex items-center gap-2 truncate">
+                                    ${flagImgB}
+                                    <span class="font-sans font-normal text-xs truncate">${nameB}</span>
+                                </div>
+                                <input type="number" min="0" placeholder="${placeholder}" value="${valB}" ${inputDisabled} ${changeHandlerB} class="w-9 h-7 bg-brandDark border border-white/20 rounded text-center font-display font-black text-xs text-brandGold focus:outline-none focus:border-brandGold transition-all">
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between text-[9px] text-white/40 font-semibold uppercase tracking-wider">
+                            <span><i class="fa-solid fa-clock mr-1 text-brandBlue"></i>${m.horaChile} Hrs</span>
+                            <span class="truncate max-w-[150px]"><i class="fa-solid fa-location-dot mr-1 text-brandGold"></i>${m.estadio}</span>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        function updateCalendarMatchScore(matchId, side, value) {
+            const m = matches.find(match => match.id === matchId);
+            if (!m) return;
+            const intVal = value === '' ? null : parseInt(value);
+            
+            if (side === 'A') m.golesA = intVal;
+            else m.golesB = intVal;
+
+            recalculateAllStats();
+            
+            // Actualizar vista de Fase de Grupos si coincide el grupo
+            if (m.grupo === currentGroup) {
+                renderMatches();
+                renderTable();
+            }
+            renderThirdsTable();
+            updateKnockoutEligibility();
+            // Mantener al día la tarjeta del calendario
+            renderCalendarMatches();
+        }
+
+        function updateCalendarPlayoffScore(matchKey, side, value) {
+            const m = knockoutMatches[matchKey];
+            if (!m) return;
+
+            const intVal = value === '' ? null : parseInt(value);
+            if (side === 'A') m.golesA = intVal;
+            else m.golesB = intVal;
+
+            determinePlayoffWinner(matchKey);
+            // Actualizar vista principal del árbol de playoffs
+            renderKnockoutMatches();
+            // Mantener al día la tarjeta del calendario
+            renderCalendarMatches();
+        }
+
         // Estado de control para evitar interferencias entre clicks y scroll spy
         let isScrollingFromClick = false;
         let scrollTimeout = null;
@@ -3348,6 +3697,7 @@
             initHistoryExplorer();
             initActiveNavigationObserver();
             initSeleccionesSection();
+            initCalendar();
 
             // Manejador de desplazamiento suave para todos los enlaces internos (#)
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
