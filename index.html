@@ -211,7 +211,7 @@
     <header class="sticky top-0 z-50 bg-brandDark/90 backdrop-blur-md border-b border-white/10 px-4 lg:px-6 py-3.5 transition-all">
         <!-- Fila Principal (Logo y Botón Guardar) -->
         <div class="max-w-7xl mx-auto flex items-center justify-between gap-4 xl:gap-8">
-            <a href="#" class="flex items-center gap-2 sm:gap-3 shrink-0">
+            <a href="#" id="brand-logo-link" class="flex items-center gap-2 sm:gap-3 shrink-0">
                 <img src="assets/logo_mundial.png" class="h-9 sm:h-11 xl:h-12 w-auto object-contain rounded-md" alt="Logo oficial FIFA 2026">
                 <span class="font-display font-black text-sm sm:text-base xl:text-lg tracking-wider bg-gradient-to-r from-white via-brandGold to-white bg-clip-text text-transparent shrink-0 whitespace-nowrap">
                     FIFA 2026 SIMULATOR
@@ -3816,6 +3816,31 @@
                     }
                 });
             });
+
+            // Manejador para el logo/leyenda (volver al inicio)
+            const brandLogo = document.getElementById('brand-logo-link');
+            if (brandLogo) {
+                brandLogo.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    // Bloquear temporalmente el detector de scroll para evitar saltos en la barra
+                    isScrollingFromClick = true;
+                    clearTimeout(scrollTimeout);
+                    
+                    // Resaltar el primer elemento del menú (Grupos) por defecto al volver al inicio
+                    setActiveLink('#simulador');
+                    
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Reactivar el detector de scroll tras completar la animación
+                    scrollTimeout = setTimeout(() => {
+                        isScrollingFromClick = false;
+                    }, 800);
+                });
+            }
         });
     </script>
 </body>
