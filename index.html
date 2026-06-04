@@ -1326,7 +1326,7 @@
             nav.innerHTML = '';
             for (let gId in groupsData) {
                 const groupMatches = matches.filter(m => m.grupo === gId);
-                const completed = groupMatches.filter(m => m.golesA !== null && m.golesB !== null).length;
+                const completed = groupMatches.filter(m => m.golesA !== null || m.golesB !== null).length;
                 
                 let checkBadge = "";
                 if(completed === 6) checkBadge = '<span class="text-[10px] ml-1 bg-green-500/20 text-green-400 rounded-full px-1.5 py-0.5"><i class="fa-solid fa-check"></i></span>';
@@ -1422,24 +1422,26 @@
 
             // Procesar todos los marcadores ingresados
             matches.forEach(m => {
-                if (m.golesA !== null && m.golesB !== null) {
+                if (m.golesA !== null || m.golesB !== null) {
+                    const goalsA = m.golesA !== null ? m.golesA : 0;
+                    const goalsB = m.golesB !== null ? m.golesB : 0;
                     const eqA = teams.find(t => t.id === m.teamAId);
                     const eqB = teams.find(t => t.id === m.teamBId);
 
                     eqA.pj++; eqB.pj++;
-                    eqA.gf += m.golesA; eqA.gc += m.golesB;
-                    eqB.gf += m.golesB; eqB.gc += m.golesA;
+                    eqA.gf += goalsA; eqA.gc += goalsB;
+                    eqB.gf += goalsB; eqB.gc += goalsA;
                     eqA.dg = eqA.gf - eqA.gc;
                     eqB.dg = eqB.gf - eqB.gc;
 
-                    if (m.golesA > m.golesB) { eqA.pts += 3; }
-                    else if (m.golesB > m.golesA) { eqB.pts += 3; }
+                    if (goalsA > goalsB) { eqA.pts += 3; }
+                    else if (goalsB > goalsA) { eqB.pts += 3; }
                     else { eqA.pts += 1; eqB.pts += 1; }
                 }
             });
 
             // Actualizar conteo de partidos jugados globales
-            const completed = matches.filter(m => m.golesA !== null && m.golesB !== null).length;
+            const completed = matches.filter(m => m.golesA !== null || m.golesB !== null).length;
             document.getElementById('completed-matches-badge').innerText = completed;
         }
 
@@ -1637,7 +1639,7 @@
 
         // Validar si la fase de grupos está completada para desbloquear la fase final
         function updateKnockoutEligibility() {
-            const completed = matches.filter(m => m.golesA !== null && m.golesB !== null).length;
+            const completed = matches.filter(m => m.golesA !== null || m.golesB !== null).length;
             const lockedScreen = document.getElementById('bracket-locked-screen');
             const unlockedScreen = document.getElementById('bracket-unlocked-screen');
 
@@ -1775,7 +1777,7 @@
             const activeClassA = m.w && m.w.id === (tA ? tA.id : null) ? 'border-brandGold bg-brandBlue/35 text-white shadow-[0_0_15px_rgba(255,215,0,0.2)]' : 'border-white/5 bg-brandGray/40 text-white/80';
             const activeClassB = m.w && m.w.id === (tB ? tB.id : null) ? 'border-brandGold bg-brandBlue/35 text-white shadow-[0_0_15px_rgba(255,215,0,0.2)]' : 'border-white/5 bg-brandGray/40 text-white/80';
 
-            const isTied = m.golesA !== null && m.golesB !== null && m.golesA === m.golesB;
+            const isTied = (m.golesA !== null || m.golesB !== null) && (m.golesA !== null ? m.golesA : 0) === (m.golesB !== null ? m.golesB : 0);
             const tieBreakBadge = isTied ? '<span class="text-[9px] text-brandGold bg-brandGold/15 px-1 py-0.5 rounded font-bold ml-1 animate-pulse">Penales</span>' : '';
 
             const card = `
@@ -1827,11 +1829,13 @@
             const m = knockoutMatches[matchKey];
             if (!m) return;
 
-            if (m.golesA !== null && m.golesB !== null) {
-                if (m.golesA > m.golesB) {
+            if (m.golesA !== null || m.golesB !== null) {
+                const goalsA = m.golesA !== null ? m.golesA : 0;
+                const goalsB = m.golesB !== null ? m.golesB : 0;
+                if (goalsA > goalsB) {
                     m.w = m.tA;
                     propagatePlayoffWinner(matchKey, m.tA);
-                } else if (m.golesB > m.golesA) {
+                } else if (goalsB > goalsA) {
                     m.w = m.tB;
                     propagatePlayoffWinner(matchKey, m.tB);
                 } else {
@@ -1857,7 +1861,7 @@
             if (!selectedTeam) return;
 
             // Si no se han ingresado goles, colocar goles representativos (1 - 0)
-            if (m.golesA === null || m.golesB === null) {
+            if (m.golesA === null && m.golesB === null) {
                 if (side === 'A') {
                     m.golesA = 1;
                     m.golesB = 0;
