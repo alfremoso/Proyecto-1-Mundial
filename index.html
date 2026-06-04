@@ -818,8 +818,16 @@
     <section id="premios-section" class="py-20 bg-sky-300 border-t border-b border-sky-400 relative z-10 text-slate-800">
         <div class="max-w-7xl mx-auto px-4">
             <div class="text-center mb-16">
-                <span class="text-xs font-bold text-brandGold uppercase tracking-widest bg-brandGold/10 px-4 py-1.5 rounded-full border border-brandGold/30">
-                    <i class="fa-solid fa-gift mr-2 text-brandGold"></i>Recompensas de Simulación
+                <span class="relative overflow-hidden text-xs font-bold text-brandGold uppercase tracking-widest px-4 py-1.5 rounded-full border border-brandGold/30 inline-flex items-center">
+                    <!-- Background image identical to cards -->
+                    <span class="absolute inset-0 bg-cover bg-center z-0" style="background-image: url('assets/premios_bg.jpg');"></span>
+                    <!-- Overlay identical to cards -->
+                    <span class="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900/85 to-slate-950/95 z-0"></span>
+                    
+                    <!-- Content -->
+                    <span class="relative z-10 flex items-center">
+                        <i class="fa-solid fa-gift mr-2 text-brandGold"></i>Recompensas de Simulación
+                    </span>
                 </span>
                 <h2 class="font-display font-black text-3xl md:text-5xl uppercase mt-4 text-slate-800">Premios para el Ganador</h2>
                 <div class="h-1 w-20 bg-brandGold mx-auto mt-4 rounded-full"></div>
