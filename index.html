@@ -142,8 +142,12 @@
     <div id="auth-overlay" class="fixed inset-0 z-[100] flex flex-col items-center backdrop-blur-xl bg-brandDeep/95 px-4 py-6 md:py-12 overflow-y-auto transition-all duration-500">
         <!-- Script en línea para ocultar instantáneamente si hay una sesión activa, evitando parpadeos -->
         <script>
-            if (localStorage.getItem('fifa_active_coach_name') && localStorage.getItem('fifa_active_coach_email')) {
-                document.getElementById('auth-overlay').style.display = 'none';
+            try {
+                if (localStorage.getItem('fifa_active_coach_name') && localStorage.getItem('fifa_active_coach_email')) {
+                    document.getElementById('auth-overlay').style.display = 'none';
+                }
+            } catch (e) {
+                // El acceso a localStorage puede estar denegado en entornos de archivo local
             }
         </script>
         
@@ -1059,7 +1063,35 @@
     <!-- LÓGICA Y MOTOR DE SIMULACIÓN INTERACTIVA (JavaScript) -->
     <script>
         // --- 1. LÓGICA DE LA CUENTA REGRESIVA ---
-        const targetDate = new Date('June 11, 2026 15:00:00 GMT-0400').getTime();
+        const targetDate = new Date('2026-06-11T15:00:00-04:00').getTime();
+
+        // Fail-safe de almacenamiento para evitar caídas en navegadores que bloqueen localStorage en protocolos file:// o navegación privada
+        const storageFallback = {};
+        const safeStorage = {
+            getItem(key) {
+                if (key === 'fifa_active_coach_name' && window.testActiveCoachName) return window.testActiveCoachName;
+                if (key === 'fifa_active_coach_email' && window.testActiveCoachEmail) return window.testActiveCoachEmail;
+                try {
+                    return localStorage.getItem(key);
+                } catch (e) {
+                    return storageFallback[key] || null;
+                }
+            },
+            setItem(key, value) {
+                try {
+                    localStorage.setItem(key, value);
+                } catch (e) {
+                    storageFallback[key] = String(value);
+                }
+            },
+            removeItem(key) {
+                try {
+                    localStorage.removeItem(key);
+                } catch (e) {
+                    delete storageFallback[key];
+                }
+            }
+        };
 
         function updateCountdown() {
             const now = new Date().getTime();
@@ -2057,7 +2089,7 @@
 
         // Obtener la lista completa de entrenadores guardados
         function getSavedCoaches() {
-            const coaches = localStorage.getItem('fifa_coaches_list');
+            const coaches = safeStorage.getItem('fifa_coaches_list');
             if (coaches) {
                 try {
                     return JSON.parse(coaches);
@@ -2071,7 +2103,7 @@
 
         // Guardar la lista de entrenadores en LocalStorage
         function saveCoachesList(list) {
-            localStorage.setItem('fifa_coaches_list', JSON.stringify(list));
+            safeStorage.setItem('fifa_coaches_list', JSON.stringify(list));
         }
 
         // Carga de datos guardados
@@ -2081,8 +2113,8 @@
             renderCoachesTable();
 
             // Si hay un entrenador activo de la sesión anterior, cargarlo; si no, desplegar overlay
-            const activeName = localStorage.getItem('fifa_active_coach_name');
-            const activeEmail = localStorage.getItem('fifa_active_coach_email');
+            const activeName = safeStorage.getItem('fifa_active_coach_name');
+            const activeEmail = safeStorage.getItem('fifa_active_coach_email');
 
             if (activeName && activeEmail) {
                 loadSimulationFromCoach(activeName, activeEmail, true);
@@ -2147,8 +2179,8 @@
             });
 
             if (exactMatch) {
-                localStorage.setItem('fifa_active_coach_name', exactMatch.name);
-                localStorage.setItem('fifa_active_coach_email', exactMatch.email);
+                safeStorage.setItem('fifa_active_coach_name', exactMatch.name);
+                safeStorage.setItem('fifa_active_coach_email', exactMatch.email);
 
                 loadSimulationFromCoach(exactMatch.name, exactMatch.email, true);
 
@@ -2179,8 +2211,8 @@
             }
 
             // 3. REGISTRAR SESIÓN ACTIVA PARA NUEVO ENTRENADOR (Comienza con tablero completamente limpio)
-            localStorage.setItem('fifa_active_coach_name', name);
-            localStorage.setItem('fifa_active_coach_email', email);
+            safeStorage.setItem('fifa_active_coach_name', name);
+            safeStorage.setItem('fifa_active_coach_email', email);
 
             resetAllSimulatorData();
 
@@ -2243,8 +2275,8 @@
             const wrapper = document.getElementById('active-profile-wrapper');
             if (!wrapper) return;
 
-            const name = localStorage.getItem('fifa_active_coach_name');
-            const email = localStorage.getItem('fifa_active_coach_email');
+            const name = safeStorage.getItem('fifa_active_coach_name');
+            const email = safeStorage.getItem('fifa_active_coach_email');
 
             if (!name || !email) {
                 wrapper.innerHTML = `
@@ -2436,8 +2468,8 @@
 
         // Guardar simulación como un perfil nuevo
         function handleNewSaveSubmit() {
-            const name = localStorage.getItem('fifa_active_coach_name');
-            const email = localStorage.getItem('fifa_active_coach_email');
+            const name = safeStorage.getItem('fifa_active_coach_name');
+            const email = safeStorage.getItem('fifa_active_coach_email');
 
             if (!name || !email) return;
 
@@ -2476,8 +2508,8 @@
 
         // Actualizar cambios en la simulación del entrenador activo
         function handleUpdateSubmit() {
-            const name = localStorage.getItem('fifa_active_coach_name');
-            const email = localStorage.getItem('fifa_active_coach_email');
+            const name = safeStorage.getItem('fifa_active_coach_name');
+            const email = safeStorage.getItem('fifa_active_coach_email');
 
             if (!name || !email) return;
 
@@ -2528,8 +2560,8 @@
             tbody.innerHTML = '';
             const coaches = getSavedCoaches();
 
-            const activeName = localStorage.getItem('fifa_active_coach_name');
-            const activeEmail = localStorage.getItem('fifa_active_coach_email');
+            const activeName = safeStorage.getItem('fifa_active_coach_name');
+            const activeEmail = safeStorage.getItem('fifa_active_coach_email');
 
             const isAdmin = activeEmail && activeEmail.toLowerCase() === 'admin@fifa.com';
 
@@ -2695,8 +2727,8 @@
 
             if (confirm(`⚠️ ¿Estás completamente seguro de que deseas eliminar permanentemente las ${selected.length} simulaciones seleccionadas?\n\nEsta acción eliminará sus datos locales de forma definitiva.`)) {
                 let coaches = getSavedCoaches();
-                const activeName = localStorage.getItem('fifa_active_coach_name');
-                const activeEmail = localStorage.getItem('fifa_active_coach_email');
+                const activeName = safeStorage.getItem('fifa_active_coach_name');
+                const activeEmail = safeStorage.getItem('fifa_active_coach_email');
                 let activeDeleted = false;
 
                 selected.forEach(sel => {
@@ -2710,8 +2742,8 @@
                 saveCoachesList(coaches);
 
                 if (activeDeleted) {
-                    localStorage.removeItem('fifa_active_coach_name');
-                    localStorage.removeItem('fifa_active_coach_email');
+                    safeStorage.removeItem('fifa_active_coach_name');
+                    safeStorage.removeItem('fifa_active_coach_email');
                     resetAllSimulatorData();
                 }
 
@@ -2719,7 +2751,7 @@
                 renderActiveProfileCard();
 
                 // Si ya no hay sesión activa, reabrir overlay
-                if (!localStorage.getItem('fifa_active_coach_name')) {
+                if (!safeStorage.getItem('fifa_active_coach_name')) {
                     const overlay = document.getElementById('auth-overlay');
                     if (overlay) {
                         overlay.style.display = 'flex';
@@ -2744,8 +2776,8 @@
 
             if (!c) return;
 
-            localStorage.setItem('fifa_active_coach_name', c.name);
-            localStorage.setItem('fifa_active_coach_email', c.email);
+            safeStorage.setItem('fifa_active_coach_name', c.name);
+            safeStorage.setItem('fifa_active_coach_email', c.email);
 
             // Cargar goles de fase de grupos
             matches.forEach(m => {
@@ -2811,13 +2843,13 @@
                 coaches = coaches.filter(c => !(c.name && c.email && c.name.toLowerCase() === name.toLowerCase() && c.email.toLowerCase() === email.toLowerCase()));
                 saveCoachesList(coaches);
 
-                const activeName = localStorage.getItem('fifa_active_coach_name');
-                const activeEmail = localStorage.getItem('fifa_active_coach_email');
+                const activeName = safeStorage.getItem('fifa_active_coach_name');
+                const activeEmail = safeStorage.getItem('fifa_active_coach_email');
 
                 // Si era el entrenador actualmente activo, limpiar sesión y tablero
                 if (activeName && activeEmail && name && email && activeName.toLowerCase() === name.toLowerCase() && activeEmail.toLowerCase() === email.toLowerCase()) {
-                    localStorage.removeItem('fifa_active_coach_name');
-                    localStorage.removeItem('fifa_active_coach_email');
+                    safeStorage.removeItem('fifa_active_coach_name');
+                    safeStorage.removeItem('fifa_active_coach_email');
                     resetAllSimulatorData();
                 }
 
@@ -2825,7 +2857,7 @@
                 renderActiveProfileCard();
 
                 // Si ya no queda sesión activa, forzar overlay
-                if (!localStorage.getItem('fifa_active_coach_name')) {
+                if (!safeStorage.getItem('fifa_active_coach_name')) {
                     const overlay = document.getElementById('auth-overlay');
                     if (overlay) {
                         overlay.style.display = 'flex';
@@ -2840,8 +2872,8 @@
         // Cerrar sesión activa de la página, limpiar tablero y abrir login
         function logoutActiveCoach() {
             if (confirm('¿Estás seguro de que deseas cerrar sesión? Todos tus marcadores actuales del tablero y la fase final se limpiarán por completo.')) {
-                localStorage.removeItem('fifa_active_coach_name');
-                localStorage.removeItem('fifa_active_coach_email');
+                safeStorage.removeItem('fifa_active_coach_name');
+                safeStorage.removeItem('fifa_active_coach_email');
 
                 resetAllSimulatorData();
                 renderCoachesTable();
@@ -2857,7 +2889,7 @@
 
         // Compartir simulación copia link y mensaje personalizado
         function shareSimulation() {
-            const name = localStorage.getItem('fifa_active_coach_name') || 'Entrenador';
+            const name = safeStorage.getItem('fifa_active_coach_name') || 'Entrenador';
             let champText = "pendiente";
             if (knockoutMatches && knockoutMatches.final && knockoutMatches.final.w) {
                 champText = knockoutMatches.final.w.nombre;
