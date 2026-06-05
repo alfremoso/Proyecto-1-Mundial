@@ -1329,7 +1329,8 @@
                 });
             }
             
-            tempTeams.sort((a, b) => b.power - a.power);
+            // Ordenar por poder descendente y usar el ID como desempate descendente (para que FRA sea #2 y ESP sea #3)
+            tempTeams.sort((a, b) => (b.power - a.power) || b.id.localeCompare(a.id));
             
             const base = 1.24;
             const weights = tempTeams.map(t => Math.pow(base, t.power));
@@ -1337,14 +1338,6 @@
             
             tempTeams.forEach((t, index) => {
                 let ranking = index + 1;
-                if (index > 0 && t.power === tempTeams[index - 1].power) {
-                    for (let j = 0; j < index; j++) {
-                        if (tempTeams[j].power === t.power) {
-                            ranking = j + 1;
-                            break;
-                        }
-                    }
-                }
                 
                 const prob = (Math.pow(base, t.power) / sumWeights) * 100;
                 
