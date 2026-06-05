@@ -241,7 +241,7 @@
 
         <!-- Menú de Navegación Horizontal Desplazable para Celulares/Tablets (Siempre visible en celular/tablet) -->
         <div class="lg:hidden mt-3 pt-2.5 border-t border-white/10 overflow-x-auto scrollbar-none scroll-smooth">
-            <nav id="mobile-nav" class="flex gap-6 text-[10px] font-bold uppercase tracking-wider px-2">
+            <nav id="mobile-nav" class="relative flex gap-6 text-[10px] font-bold uppercase tracking-wider px-2">
                 <a href="#simulador" class="mobile-nav-link text-brandGold border-b-2 border-brandGold pb-1.5 shrink-0 transition-all">Grupos</a>
                 <a href="#knockout-section" class="mobile-nav-link text-white/80 border-b-2 border-transparent pb-1.5 shrink-0 transition-all">Fase Final</a>
                 <a href="#mejores-terceros-sec" class="mobile-nav-link text-white/80 border-b-2 border-transparent pb-1.5 shrink-0 transition-all">Mejores Terceros</a>
@@ -3837,7 +3837,18 @@
                     l.classList.add('text-brandGold', 'border-brandGold');
                     
                     // Desplazamiento horizontal automático para mantener centrado el item seleccionado en móvil
-                    l.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                    // Usamos scrollTo en el contenedor en lugar de scrollIntoView para evitar tirones y peleas con el scroll vertical en móvil
+                    const container = document.getElementById('mobile-nav')?.parentElement;
+                    if (container) {
+                        const containerWidth = container.offsetWidth;
+                        const linkOffsetLeft = l.offsetLeft;
+                        const linkWidth = l.offsetWidth;
+                        const targetScrollLeft = linkOffsetLeft - (containerWidth / 2) + (linkWidth / 2);
+                        container.scrollTo({
+                            left: targetScrollLeft,
+                            behavior: 'smooth'
+                        });
+                    }
                 } else {
                     l.classList.remove('text-brandGold', 'border-brandGold');
                     l.classList.add('text-white/80', 'border-transparent');
