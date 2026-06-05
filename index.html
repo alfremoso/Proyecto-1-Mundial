@@ -1221,6 +1221,7 @@
         // Estado Mutable
         let currentGroup = 'A';
         let teams = []; // Lista aplanada de todos los equipos con sus stats
+        let computedTeamsStats = {}; // Datos calculados de ranking, probabilidad y categoría
         let matches = []; // Lista de todos los 72 partidos de grupos
         let knockoutRound = 'r32'; // Ronda seleccionada (r32, r16, qf, sf)
         let knockoutMatches = {}; // Marcadores y resultados del playoff interactivo
@@ -1316,6 +1317,55 @@
                     });
                 });
             }
+            calculateTeamsDynamicStats();
+        }
+
+        function calculateTeamsDynamicStats() {
+            computedTeamsStats = {};
+            let tempTeams = [];
+            for (let gId in groupsData) {
+                groupsData[gId].forEach(team => {
+                    tempTeams.push({ id: team.id, power: team.power });
+                });
+            }
+            
+            tempTeams.sort((a, b) => b.power - a.power);
+            
+            const base = 1.24;
+            const weights = tempTeams.map(t => Math.pow(base, t.power));
+            const sumWeights = weights.reduce((sum, w) => sum + w, 0);
+            
+            tempTeams.forEach((t, index) => {
+                let ranking = index + 1;
+                if (index > 0 && t.power === tempTeams[index - 1].power) {
+                    for (let j = 0; j < index; j++) {
+                        if (tempTeams[j].power === t.power) {
+                            ranking = j + 1;
+                            break;
+                        }
+                    }
+                }
+                
+                const prob = (Math.pow(base, t.power) / sumWeights) * 100;
+                
+                let category = "Participante";
+                if (t.power >= 90) {
+                    category = "Favorito al título";
+                } else if (t.power >= 82) {
+                    category = "Contendiente fuerte";
+                } else if (t.power >= 73) {
+                    category = "Competitivo";
+                } else {
+                    category = "Sorpresa posible";
+                }
+                
+                computedTeamsStats[t.id] = {
+                    ranking: ranking,
+                    probabilidad: prob.toFixed(1) + "%",
+                    categoria: category,
+                    fuerza: t.power
+                };
+            });
         }
 
         // --- 3. RENDERIZADO DEL INTERFAZ DE USUARIO ---
@@ -3483,10 +3533,43 @@
                 ? "relative flex items-center justify-center bg-black/15 border border-white/15 rounded-full w-36 h-36 overflow-hidden" 
                 : "relative flex items-center justify-center bg-black/15 border border-white/15 rounded-full p-4 w-36 h-36 overflow-hidden";
 
+            const computedStats = computedTeamsStats[teamId] || {
+                ranking: "-",
+                probabilidad: "-",
+                categoria: "-",
+                fuerza: team.power
+            };
+
             container.innerHTML = `
-                <div class="rounded-3xl shadow-2xl p-6 md:p-8 relative overflow-hidden transition-all duration-500 border border-white/10" style="background: ${colorGradient}; min-height: 380px;">
+                <div class="rounded-3xl shadow-2xl pt-16 pb-16 px-6 md:p-8 relative overflow-hidden transition-all duration-500 border border-white/10" style="background: ${colorGradient}; min-height: 380px;">
                     <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.15)_0%,transparent_80%)]"></div>
                     <img src="assets/logo_mundial.png" class="absolute top-4 right-4 h-12 w-auto object-contain opacity-35" alt="FIFA Logo">
+
+                    <!-- Esquina Superior Izquierda: Ranking FIFA y Categoría -->
+                    <div class="absolute top-4 left-4 z-20 flex flex-col sm:flex-row sm:items-center gap-2 bg-black/30 border border-white/10 px-3 py-1.5 rounded-xl backdrop-blur-md">
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-[9px] text-white/50 uppercase tracking-widest font-semibold">Ranking FIFA:</span>
+                            <span class="text-xs font-black text-brandGold font-display">#${computedStats.ranking}</span>
+                        </div>
+                        <div class="hidden sm:inline-block h-3 w-px bg-white/10"></div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-[9px] text-white/50 uppercase tracking-widest font-semibold">Categoría:</span>
+                            <span class="text-[10px] font-bold text-white bg-white/10 border border-white/10 px-1.5 py-0.5 rounded">${computedStats.categoria}</span>
+                        </div>
+                    </div>
+
+                    <!-- Esquina Inferior Izquierda: Probabilidad Campeón y Fuerza -->
+                    <div class="absolute bottom-4 left-4 z-20 flex flex-col sm:flex-row sm:items-center gap-2 bg-black/30 border border-white/10 px-3 py-1.5 rounded-xl backdrop-blur-md">
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-[9px] text-white/50 uppercase tracking-widest font-semibold">Prob. Campeón:</span>
+                            <span class="text-xs font-black text-brandGold font-display">${computedStats.probabilidad}</span>
+                        </div>
+                        <div class="hidden sm:inline-block h-3 w-px bg-white/10"></div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-[9px] text-white/50 uppercase tracking-widest font-semibold">Fuerza / Poder:</span>
+                            <span class="text-[10px] font-bold text-white bg-white/10 border border-white/10 px-1.5 py-0.5 rounded">${computedStats.fuerza}</span>
+                        </div>
+                    </div>
 
                     <div class="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
                         
