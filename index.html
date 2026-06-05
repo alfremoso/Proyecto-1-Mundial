@@ -2247,8 +2247,9 @@
                 nameInput.value = '';
                 emailInput.value = '';
 
-                // Desplazar al inicio de la página
+                // Desplazar al inicio de la página y activar el primer menú
                 window.scrollTo({ top: 0, behavior: 'instant' });
+                setActiveLink('#simulador');
 
                 alert(`🎮 ¡Bienvenido de vuelta, Entrenador ${exactMatch.name}!\n\nHemos cargado tu simulación guardada de forma segura en el tablero.`);
                 return;
@@ -2279,8 +2280,9 @@
             nameInput.value = '';
             emailInput.value = '';
 
-            // Desplazar al inicio de la página
+            // Desplazar al inicio de la página y activar el primer menú
             window.scrollTo({ top: 0, behavior: 'instant' });
+            setActiveLink('#simulador');
 
             alert(`⚽ ¡Bienvenido, Entrenador ${name}!\n\nHas ingresado como un nuevo usuario. El simulador se ha limpiado por completo para que comiences tus propias predicciones.`);
         }
@@ -3973,6 +3975,10 @@
             initActiveNavigationObserver();
             initSeleccionesSection();
             initCalendar();
+
+            // Forzar que la página se inicie al principio y con la opción "Grupos" seleccionada
+            window.scrollTo({ top: 0, behavior: 'instant' });
+            setActiveLink('#simulador');
 
             // Manejador de desplazamiento suave para todos los enlaces internos (#)
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
