@@ -1336,6 +1336,106 @@
             final: { date: '2026-07-19', label: 'Gran Final 🏆', time: '20:00', stadium: 'MetLife Stadium, New York/NJ' }
         };
 
+        // --- BASE DE DATOS DEL FIXTURE OFICIAL (Horarios ajustados a Chile UTC-4) ---
+        const officialFixtureSchedule = {
+            A: [
+                { fecha: "11 de junio de 2026", fechaISO: "2026-06-11", horaChile: "15:00" },
+                { fecha: "11 de junio de 2026", fechaISO: "2026-06-11", horaChile: "22:00" },
+                { fecha: "16 de junio de 2026", fechaISO: "2026-06-16", horaChile: "15:00" },
+                { fecha: "16 de junio de 2026", fechaISO: "2026-06-16", horaChile: "21:00" },
+                { fecha: "21 de junio de 2026", fechaISO: "2026-06-21", horaChile: "18:00" },
+                { fecha: "21 de junio de 2026", fechaISO: "2026-06-21", horaChile: "21:00" }
+            ],
+            B: [
+                { fecha: "12 de junio de 2026", fechaISO: "2026-06-12", horaChile: "15:00" },
+                { fecha: "13 de junio de 2026", fechaISO: "2026-06-13", horaChile: "15:00" },
+                { fecha: "17 de junio de 2026", fechaISO: "2026-06-17", horaChile: "15:00" },
+                { fecha: "18 de junio de 2026", fechaISO: "2026-06-18", horaChile: "21:00" },
+                { fecha: "22 de junio de 2026", fechaISO: "2026-06-22", horaChile: "18:00" },
+                { fecha: "22 de junio de 2026", fechaISO: "2026-06-22", horaChile: "21:00" }
+            ],
+            C: [
+                { fecha: "13 de junio de 2026", fechaISO: "2026-06-13", horaChile: "18:00" },
+                { fecha: "13 de junio de 2026", fechaISO: "2026-06-13", horaChile: "21:00" },
+                { fecha: "18 de junio de 2026", fechaISO: "2026-06-18", horaChile: "15:00" },
+                { fecha: "18 de junio de 2026", fechaISO: "2026-06-18", horaChile: "21:00" },
+                { fecha: "23 de junio de 2026", fechaISO: "2026-06-23", horaChile: "18:00" },
+                { fecha: "23 de junio de 2026", fechaISO: "2026-06-23", horaChile: "21:00" }
+            ],
+            D: [
+                { fecha: "12 de junio de 2026", fechaISO: "2026-06-12", horaChile: "21:00" },
+                { fecha: "12 de junio de 2026", fechaISO: "2026-06-12", horaChile: "23:00" },
+                { fecha: "17 de junio de 2026", fechaISO: "2026-06-17", horaChile: "18:00" },
+                { fecha: "18 de junio de 2026", fechaISO: "2026-06-18", horaChile: "18:00" },
+                { fecha: "22 de junio de 2026", fechaISO: "2026-06-22", horaChile: "15:00" },
+                { fecha: "22 de junio de 2026", fechaISO: "2026-06-22", horaChile: "18:00" }
+            ],
+            E: [
+                { fecha: "13 de junio de 2026", fechaISO: "2026-06-13", horaChile: "15:00" },
+                { fecha: "14 de junio de 2026", fechaISO: "2026-06-14", horaChile: "18:00" },
+                { fecha: "19 de junio de 2026", fechaISO: "2026-06-19", horaChile: "15:00" },
+                { fecha: "19 de junio de 2026", fechaISO: "2026-06-19", horaChile: "18:00" },
+                { fecha: "24 de junio de 2026", fechaISO: "2026-06-24", horaChile: "18:00" },
+                { fecha: "24 de junio de 2026", fechaISO: "2026-06-24", horaChile: "21:00" }
+            ],
+            F: [
+                { fecha: "14 de junio de 2026", fechaISO: "2026-06-14", horaChile: "21:00" },
+                { fecha: "14 de junio de 2026", fechaISO: "2026-06-14", horaChile: "23:00" },
+                { fecha: "19 de junio de 2026", fechaISO: "2026-06-19", horaChile: "21:00" },
+                { fecha: "20 de junio de 2026", fechaISO: "2026-06-20", horaChile: "18:00" },
+                { fecha: "24 de junio de 2026", fechaISO: "2026-06-24", horaChile: "15:00" },
+                { fecha: "24 de junio de 2026", fechaISO: "2026-06-24", horaChile: "18:00" }
+            ],
+            G: [
+                { fecha: "15 de junio de 2026", fechaISO: "2026-06-15", horaChile: "15:00" },
+                { fecha: "15 de junio de 2026", fechaISO: "2026-06-15", horaChile: "18:00" },
+                { fecha: "20 de junio de 2026", fechaISO: "2026-06-20", horaChile: "15:00" },
+                { fecha: "20 de junio de 2026", fechaISO: "2026-06-20", horaChile: "21:00" },
+                { fecha: "25 de junio de 2026", fechaISO: "2026-06-25", horaChile: "18:00" },
+                { fecha: "25 de junio de 2026", fechaISO: "2026-06-25", horaChile: "21:00" }
+            ],
+            H: [
+                { fecha: "15 de junio de 2026", fechaISO: "2026-06-15", horaChile: "21:00" },
+                { fecha: "15 de junio de 2026", fechaISO: "2026-06-15", horaChile: "23:00" },
+                { fecha: "20 de junio de 2026", fechaISO: "2026-06-20", horaChile: "18:00" },
+                { fecha: "21 de junio de 2026", fechaISO: "2026-06-21", horaChile: "15:00" },
+                { fecha: "25 de junio de 2026", fechaISO: "2026-06-25", horaChile: "15:00" },
+                { fecha: "25 de junio de 2026", fechaISO: "2026-06-25", horaChile: "18:00" }
+            ],
+            I: [
+                { fecha: "16 de junio de 2026", fechaISO: "2026-06-16", horaChile: "15:00" },
+                { fecha: "16 de junio de 2026", fechaISO: "2026-06-16", horaChile: "18:00" },
+                { fecha: "21 de junio de 2026", fechaISO: "2026-06-21", horaChile: "18:00" },
+                { fecha: "21 de junio de 2026", fechaISO: "2026-06-21", horaChile: "21:00" },
+                { fecha: "26 de junio de 2026", fechaISO: "2026-06-26", horaChile: "18:00" },
+                { fecha: "26 de junio de 2026", fechaISO: "2026-06-26", horaChile: "21:00" }
+            ],
+            J: [
+                { fecha: "16 de junio de 2026", fechaISO: "2026-06-16", horaChile: "21:00" },
+                { fecha: "17 de junio de 2026", fechaISO: "2026-06-17", horaChile: "15:00" },
+                { fecha: "21 de junio de 2026", fechaISO: "2026-06-21", horaChile: "15:00" },
+                { fecha: "22 de junio de 2026", fechaISO: "2026-06-22", horaChile: "15:00" },
+                { fecha: "26 de junio de 2026", fechaISO: "2026-06-26", horaChile: "15:00" },
+                { fecha: "26 de junio de 2026", fechaISO: "2026-06-26", horaChile: "18:00" }
+            ],
+            K: [
+                { fecha: "17 de junio de 2026", fechaISO: "2026-06-17", horaChile: "18:00" },
+                { fecha: "17 de junio de 2026", fechaISO: "2026-06-17", horaChile: "21:00" },
+                { fecha: "22 de junio de 2026", fechaISO: "2026-06-22", horaChile: "18:00" },
+                { fecha: "22 de junio de 2026", fechaISO: "2026-06-22", horaChile: "21:00" },
+                { fecha: "27 de junio de 2026", fechaISO: "2026-06-27", horaChile: "15:00" },
+                { fecha: "27 de junio de 2026", fechaISO: "2026-06-27", horaChile: "18:00" }
+            ],
+            L: [
+                { fecha: "17 de junio de 2026", fechaISO: "2026-06-17", horaChile: "21:00" },
+                { fecha: "18 de junio de 2026", fechaISO: "2026-06-18", horaChile: "15:00" },
+                { fecha: "22 de junio de 2026", fechaISO: "2026-06-22", horaChile: "21:00" },
+                { fecha: "23 de junio de 2026", fechaISO: "2026-06-23", horaChile: "15:00" },
+                { fecha: "27 de junio de 2026", fechaISO: "2026-06-27", horaChile: "18:00" },
+                { fecha: "27 de junio de 2026", fechaISO: "2026-06-27", horaChile: "21:00" }
+            ]
+        };
+
         // Inicialización base
         function initData() {
             teams = [];
@@ -1360,18 +1460,17 @@
                 const stadIndex = groupStadiumMapping[gId];
                 
                 const matchTemplates = [
-                    { tA: 0, tB: 1, jor: 1, stad: stadIndex[0], time: "15:00", baseDay: 11 },
-                    { tA: 2, tB: 3, jor: 1, stad: stadIndex[1], time: "18:00", baseDay: 12 },
-                    { tA: 0, tB: 2, jor: 2, stad: stadIndex[0], time: "15:00", baseDay: 16 },
-                    { tA: 1, tB: 3, jor: 2, stad: stadIndex[1], time: "21:00", baseDay: 17 },
-                    { tA: 3, tB: 0, jor: 3, stad: stadIndex[0], time: "18:00", baseDay: 21 },
-                    { tA: 1, tB: 2, jor: 3, stad: stadIndex[1], time: "21:00", baseDay: 21 }
+                    { tA: 0, tB: 1, jor: 1, stad: stadIndex[0] },
+                    { tA: 2, tB: 3, jor: 1, stad: stadIndex[1] },
+                    { tA: 0, tB: 2, jor: 2, stad: stadIndex[0] },
+                    { tA: 1, tB: 3, jor: 2, stad: stadIndex[1] },
+                    { tA: 3, tB: 0, jor: 3, stad: stadIndex[0] },
+                    { tA: 1, tB: 2, jor: 3, stad: stadIndex[1] }
                 ];
 
                 matchTemplates.forEach((mt, idx) => {
                     const stadium = stadiumsList[mt.stad];
-                    const groupOffset = Math.floor((gId.charCodeAt(0) - 65) / 2);
-                    const day = mt.baseDay + groupOffset;
+                    const schedule = officialFixtureSchedule[gId][idx];
                     matches.push({
                         id: `match_${gId}_${idx + 1}`,
                         grupo: gId,
@@ -1381,9 +1480,9 @@
                         golesA: null,
                         golesB: null,
                         estadio: stadium.name + ", " + stadium.city,
-                        horaChile: mt.time,
-                        fecha: `${day} de junio de 2026`,
-                        fechaISO: `2026-06-${String(day).padStart(2, '0')}` // Campo ISO agregado para búsquedas sencillas
+                        horaChile: schedule.horaChile,
+                        fecha: schedule.fecha,
+                        fechaISO: schedule.fechaISO
                     });
                 });
             }
