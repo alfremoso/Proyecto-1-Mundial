@@ -1299,41 +1299,80 @@
         let calendarDates = [];
 
         const knockoutMeta = {
-            r32_1: { date: '2026-06-28', label: 'Dieciseisavos de Final', time: '15:00', stadium: 'SoFi Stadium, Los Angeles' },
-            r32_2: { date: '2026-06-28', label: 'Dieciseisavos de Final', time: '18:00', stadium: 'MetLife Stadium, New York/NJ' },
-            r32_3: { date: '2026-06-28', label: 'Dieciseisavos de Final', time: '21:00', stadium: 'Estadio Azteca, CDMX' },
-            r32_4: { date: '2026-06-29', label: 'Dieciseisavos de Final', time: '15:00', stadium: 'BC Place, Vancouver' },
-            r32_5: { date: '2026-06-29', label: 'Dieciseisavos de Final', time: '18:00', stadium: 'Hard Rock Stadium, Miami' },
-            r32_6: { date: '2026-06-29', label: 'Dieciseisavos de Final', time: '21:00', stadium: 'Mercedes-Benz Stadium, Atlanta' },
-            r32_7: { date: '2026-06-30', label: 'Dieciseisavos de Final', time: '15:00', stadium: 'Gillette Stadium, Boston' },
-            r32_8: { date: '2026-06-30', label: 'Dieciseisavos de Final', time: '18:00', stadium: 'Lincoln Financial Field, Philadelphia' },
-            r32_9: { date: '2026-06-30', label: 'Dieciseisavos de Final', time: '21:00', stadium: 'NRG Stadium, Houston' },
-            r32_10: { date: '2026-07-01', label: 'Dieciseisavos de Final', time: '15:00', stadium: 'AT&T Stadium, Dallas' },
-            r32_11: { date: '2026-07-01', label: 'Dieciseisavos de Final', time: '18:00', stadium: 'Arrowhead Stadium, Kansas City' },
-            r32_12: { date: '2026-07-01', label: 'Dieciseisavos de Final', time: '21:00', stadium: 'Levi\'s Stadium, San Francisco' },
-            r32_13: { date: '2026-07-02', label: 'Dieciseisavos de Final', time: '16:00', stadium: 'BBVA Stadium, Monterrey' },
-            r32_14: { date: '2026-07-02', label: 'Dieciseisavos de Final', time: '20:00', stadium: 'Estadio Guadalajara, Guadalajara' },
-            r32_15: { date: '2026-07-03', label: 'Dieciseisavos de Final', time: '16:00', stadium: 'BMO Field, Toronto' },
-            r32_16: { date: '2026-07-03', label: 'Dieciseisavos de Final', time: '20:00', stadium: 'SoFi Stadium, Los Angeles' },
+            r32_1: { date: '2026-06-28', label: 'Dieciseisavos de Final', time: '15:00', stadium: 'Estadio Los Ángeles' },
+            r32_2: { date: '2026-06-29', label: 'Dieciseisavos de Final', time: '15:00', stadium: 'Estadio Boston' },
+            r32_3: { date: '2026-06-29', label: 'Dieciseisavos de Final', time: '18:00', stadium: 'Estadio Monterrey' },
+            r32_4: { date: '2026-06-29', label: 'Dieciseisavos de Final', time: '21:00', stadium: 'Estadio Houston' },
+            r32_5: { date: '2026-06-30', label: 'Dieciseisavos de Final', time: '15:00', stadium: 'Estadio Nueva York Nueva Jersey' },
+            r32_6: { date: '2026-06-30', label: 'Dieciseisavos de Final', time: '18:00', stadium: 'Estadio Dallas' },
+            r32_7: { date: '2026-06-30', label: 'Dieciseisavos de Final', time: '21:00', stadium: 'Estadio Ciudad de México' },
+            r32_8: { date: '2026-07-01', label: 'Dieciseisavos de Final', time: '15:00', stadium: 'Estadio Atlanta' },
+            r32_9: { date: '2026-07-01', label: 'Dieciseisavos de Final', time: '18:00', stadium: 'Estadio Bahía de San Francisco' },
+            r32_10: { date: '2026-07-01', label: 'Dieciseisavos de Final', time: '21:00', stadium: 'Estadio Seattle' },
+            r32_11: { date: '2026-07-02', label: 'Dieciseisavos de Final', time: '15:00', stadium: 'Estadio Toronto' },
+            r32_12: { date: '2026-07-02', label: 'Dieciseisavos de Final', time: '18:00', stadium: 'Estadio Los Ángeles' },
+            r32_13: { date: '2026-07-02', label: 'Dieciseisavos de Final', time: '21:00', stadium: 'Estadio BC Place Vancouver' },
+            r32_14: { date: '2026-07-03', label: 'Dieciseisavos de Final', time: '15:00', stadium: 'Estadio Miami' },
+            r32_15: { date: '2026-07-03', label: 'Dieciseisavos de Final', time: '18:00', stadium: 'Estadio Kansas City' },
+            r32_16: { date: '2026-07-03', label: 'Dieciseisavos de Final', time: '21:00', stadium: 'Estadio Dallas' },
 
-            r16_1: { date: '2026-07-04', label: 'Octavos de Final', time: '16:00', stadium: 'MetLife Stadium, New York/NJ' },
-            r16_2: { date: '2026-07-04', label: 'Octavos de Final', time: '20:00', stadium: 'BC Place, Vancouver' },
-            r16_3: { date: '2026-07-05', label: 'Octavos de Final', time: '16:00', stadium: 'Estadio Azteca, CDMX' },
-            r16_4: { date: '2026-07-05', label: 'Octavos de Final', time: '20:00', stadium: 'Hard Rock Stadium, Miami' },
-            r16_5: { date: '2026-07-06', label: 'Octavos de Final', time: '16:00', stadium: 'Mercedes-Benz Stadium, Atlanta' },
-            r16_6: { date: '2026-07-06', label: 'Octavos de Final', time: '20:00', stadium: 'NRG Stadium, Houston' },
-            r16_7: { date: '2026-07-07', label: 'Octavos de Final', time: '16:00', stadium: 'AT&T Stadium, Dallas' },
-            r16_8: { date: '2026-07-07', label: 'Octavos de Final', time: '20:00', stadium: 'SoFi Stadium, Los Angeles' },
+            r16_1: { date: '2026-07-04', label: 'Octavos de Final', time: '16:00', stadium: 'Estadio Filadelfia' },
+            r16_2: { date: '2026-07-04', label: 'Octavos de Final', time: '20:00', stadium: 'Estadio Houston' },
+            r16_3: { date: '2026-07-05', label: 'Octavos de Final', time: '16:00', stadium: 'Estadio Nueva York Nueva Jersey' },
+            r16_4: { date: '2026-07-05', label: 'Octavos de Final', time: '20:00', stadium: 'Estadio Ciudad de México' },
+            r16_5: { date: '2026-07-06', label: 'Octavos de Final', time: '16:00', stadium: 'Estadio Dallas' },
+            r16_6: { date: '2026-07-06', label: 'Octavos de Final', time: '20:00', stadium: 'Estadio Seattle' },
+            r16_7: { date: '2026-07-07', label: 'Octavos de Final', time: '16:00', stadium: 'Estadio Atlanta' },
+            r16_8: { date: '2026-07-07', label: 'Octavos de Final', time: '20:00', stadium: 'Estadio BC Place Vancouver' },
 
-            qf_1: { date: '2026-07-09', label: 'Cuartos de Final', time: '18:00', stadium: 'Gillette Stadium, Boston' },
-            qf_2: { date: '2026-07-10', label: 'Cuartos de Final', time: '18:00', stadium: 'Mercedes-Benz Stadium, Atlanta' },
-            qf_3: { date: '2026-07-10', label: 'Cuartos de Final', time: '21:00', stadium: 'Hard Rock Stadium, Miami' },
-            qf_4: { date: '2026-07-11', label: 'Cuartos de Final', time: '18:00', stadium: 'MetLife Stadium, New York/NJ' },
+            qf_1: { date: '2026-07-09', label: 'Cuartos de Final', time: '18:00', stadium: 'Estadio Boston' },
+            qf_2: { date: '2026-07-10', label: 'Cuartos de Final', time: '18:00', stadium: 'Estadio Los Ángeles' },
+            qf_3: { date: '2026-07-11', label: 'Cuartos de Final', time: '18:00', stadium: 'Estadio Miami' },
+            qf_4: { date: '2026-07-11', label: 'Cuartos de Final', time: '21:00', stadium: 'Estadio Kansas City' },
 
-            sf_1: { date: '2026-07-14', label: 'Semifinal', time: '20:00', stadium: 'AT&T Stadium, Dallas' },
-            sf_2: { date: '2026-07-15', label: 'Semifinal', time: '20:00', stadium: 'Mercedes-Benz Stadium, Atlanta' },
+            sf_1: { date: '2026-07-14', label: 'Semifinal', time: '20:00', stadium: 'Estadio Dallas' },
+            sf_2: { date: '2026-07-15', label: 'Semifinal', time: '20:00', stadium: 'Estadio Atlanta' },
 
-            final: { date: '2026-07-19', label: 'Gran Final 🏆', time: '20:00', stadium: 'MetLife Stadium, New York/NJ' }
+            third_place: { date: '2026-07-18', label: 'Tercer Puesto', time: '16:00', stadium: 'Estadio Miami' },
+
+            final: { date: '2026-07-19', label: 'Gran Final 🏆', time: '20:00', stadium: 'Estadio Nueva York Nueva Jersey' }
+        };
+
+        const r32ToR16Mapping = {
+            r32_2: { nextKey: 'r16_1', side: 'tA' },
+            r32_5: { nextKey: 'r16_1', side: 'tB' },
+            r32_1: { nextKey: 'r16_2', side: 'tA' },
+            r32_3: { nextKey: 'r16_2', side: 'tB' },
+            r32_4: { nextKey: 'r16_3', side: 'tA' },
+            r32_6: { nextKey: 'r16_3', side: 'tB' },
+            r32_7: { nextKey: 'r16_4', side: 'tA' },
+            r32_8: { nextKey: 'r16_4', side: 'tB' },
+            r32_11: { nextKey: 'r16_5', side: 'tA' },
+            r32_12: { nextKey: 'r16_5', side: 'tB' },
+            r32_9: { nextKey: 'r16_6', side: 'tA' },
+            r32_10: { nextKey: 'r16_6', side: 'tB' },
+            r32_14: { nextKey: 'r16_7', side: 'tA' },
+            r32_16: { nextKey: 'r16_7', side: 'tB' },
+            r32_13: { nextKey: 'r16_8', side: 'tA' },
+            r32_15: { nextKey: 'r16_8', side: 'tB' }
+        };
+
+        const r16ToQfMapping = {
+            r16_1: { nextKey: 'qf_1', side: 'tA' },
+            r16_2: { nextKey: 'qf_1', side: 'tB' },
+            r16_5: { nextKey: 'qf_2', side: 'tA' },
+            r16_6: { nextKey: 'qf_2', side: 'tB' },
+            r16_3: { nextKey: 'qf_3', side: 'tA' },
+            r16_4: { nextKey: 'qf_3', side: 'tB' },
+            r16_7: { nextKey: 'qf_4', side: 'tA' },
+            r16_8: { nextKey: 'qf_4', side: 'tB' }
+        };
+
+        const qfToSfMapping = {
+            qf_1: { nextKey: 'sf_1', side: 'tA' },
+            qf_2: { nextKey: 'sf_1', side: 'tB' },
+            qf_3: { nextKey: 'sf_2', side: 'tA' },
+            qf_4: { nextKey: 'sf_2', side: 'tB' }
         };
 
         // --- BASE DE DATOS DEL FIXTURE OFICIAL (Horarios ajustados a Chile UTC-4) ---
@@ -1877,30 +1916,44 @@
                 groupRunnersUp[gId] = sorted[1];
             }
 
-            const thirds = getThirdPlacedTeams().slice(0, 8).map(item => item.team);
+            const thirdsList = getThirdPlacedTeams().slice(0, 8); // [{group: 'A', team: {...}}, ...]
+            const assignedThirds = new Set();
+
+            function getThirdPlaceTeamFor(prefGroups) {
+                for (let g of prefGroups) {
+                    const found = thirdsList.find(t => t.group === g && !assignedThirds.has(t.group));
+                    if (found) {
+                        assignedThirds.add(found.group);
+                        return found.team;
+                    }
+                }
+                const fallback = thirdsList.find(t => !assignedThirds.has(t.group));
+                if (fallback) {
+                    assignedThirds.add(fallback.group);
+                    return fallback.team;
+                }
+                return null;
+            }
 
             // Mapeo adaptativo limpio para emparejar a los ganadores de grupo con los mejores terceros
-            // R32_1 a R32_16 de acuerdo con la estructura simplificada de conectores
             knockoutMatches = {
-                // Bloque Izquierdo
-                r32_1: { tA: groupWinners['A'], tB: thirds[0], golesA: null, golesB: null, w: null },
-                r32_2: { tA: groupRunnersUp['D'], tB: groupRunnersUp['G'], golesA: null, golesB: null, w: null },
+                r32_1: { tA: groupRunnersUp['A'], tB: groupRunnersUp['B'], golesA: null, golesB: null, w: null },
+                r32_2: { tA: groupWinners['E'], tB: getThirdPlaceTeamFor(['A', 'B', 'C', 'D', 'F']), golesA: null, golesB: null, w: null },
                 r32_3: { tA: groupWinners['F'], tB: groupRunnersUp['C'], golesA: null, golesB: null, w: null },
-                r32_4: { tA: groupWinners['I'], tB: thirds[1], golesA: null, golesB: null, w: null },
-                r32_5: { tA: groupWinners['E'], tB: thirds[2], golesA: null, golesB: null, w: null },
-                r32_6: { tA: groupRunnersUp['K'], tB: groupRunnersUp['L'], golesA: null, golesB: null, w: null },
-                r32_7: { tA: groupWinners['C'], tB: groupRunnersUp['F'], golesA: null, golesB: null, w: null },
-                r32_8: { tA: groupWinners['L'], tB: thirds[3], golesA: null, golesB: null, w: null },
+                r32_4: { tA: groupWinners['C'], tB: groupRunnersUp['F'], golesA: null, golesB: null, w: null },
+                r32_5: { tA: groupWinners['I'], tB: getThirdPlaceTeamFor(['C', 'D', 'F', 'G', 'H']), golesA: null, golesB: null, w: null },
+                r32_6: { tA: groupRunnersUp['E'], tB: groupRunnersUp['I'], golesA: null, golesB: null, w: null },
+                r32_7: { tA: groupWinners['A'], tB: getThirdPlaceTeamFor(['C', 'E', 'F', 'H', 'I']), golesA: null, golesB: null, w: null },
+                r32_8: { tA: groupWinners['L'], tB: getThirdPlaceTeamFor(['E', 'H', 'I', 'J', 'K']), golesA: null, golesB: null, w: null },
 
-                // Bloque Derecho
-                r32_9: { tA: groupWinners['B'], tB: thirds[4], golesA: null, golesB: null, w: null },
-                r32_10: { tA: groupRunnersUp['A'], tB: groupRunnersUp['B'], golesA: null, golesB: null, w: null },
-                r32_11: { tA: groupWinners['G'], tB: thirds[5], golesA: null, golesB: null, w: null },
-                r32_12: { tA: groupWinners['J'], tB: groupRunnersUp['H'], golesA: null, golesB: null, w: null },
-                r32_13: { tA: groupWinners['D'], tB: thirds[6], golesA: null, golesB: null, w: null },
-                r32_14: { tA: groupRunnersUp['E'], tB: groupRunnersUp['I'], golesA: null, golesB: null, w: null },
-                r32_15: { tA: groupWinners['H'], tB: groupRunnersUp['J'], golesA: null, golesB: null, w: null },
-                r32_16: { tA: groupWinners['K'], tB: thirds[7], golesA: null, golesB: null, w: null },
+                r32_9: { tA: groupWinners['D'], tB: getThirdPlaceTeamFor(['B', 'E', 'F', 'I', 'J']), golesA: null, golesB: null, w: null },
+                r32_10: { tA: groupWinners['G'], tB: getThirdPlaceTeamFor(['A', 'E', 'H', 'I', 'J']), golesA: null, golesB: null, w: null },
+                r32_11: { tA: groupRunnersUp['K'], tB: groupRunnersUp['L'], golesA: null, golesB: null, w: null },
+                r32_12: { tA: groupWinners['H'], tB: groupRunnersUp['J'], golesA: null, golesB: null, w: null },
+                r32_13: { tA: groupWinners['B'], tB: getThirdPlaceTeamFor(['E', 'F', 'G', 'I', 'J']), golesA: null, golesB: null, w: null },
+                r32_14: { tA: groupWinners['J'], tB: groupRunnersUp['H'], golesA: null, golesB: null, w: null },
+                r32_15: { tA: groupWinners['K'], tB: getThirdPlaceTeamFor(['D', 'E', 'I', 'J', 'L']), golesA: null, golesB: null, w: null },
+                r32_16: { tA: groupRunnersUp['D'], tB: groupRunnersUp['G'], golesA: null, golesB: null, w: null },
 
                 // Inicializar rondas posteriores en vacío
                 r16_1: { tA: null, tB: null, golesA: null, golesB: null, w: null },
@@ -1920,6 +1973,7 @@
                 sf_1: { tA: null, tB: null, golesA: null, golesB: null, w: null },
                 sf_2: { tA: null, tB: null, golesA: null, golesB: null, w: null },
 
+                third_place: { tA: null, tB: null, golesA: null, golesB: null, w: null },
                 final: { tA: null, tB: null, golesA: null, golesB: null, w: null }
             };
 
@@ -1958,6 +2012,7 @@
                 // Manejo especial de Semifinales + Final juntos
                 renderMatchCard('sf_1', "Semifinal 1", grid);
                 renderMatchCard('sf_2', "Semifinal 2", grid);
+                renderMatchCard('third_place', "Tercer Puesto 🥉", grid);
                 renderMatchCard('final', "Gran Final 🏆", grid);
             } else {
                 for (let i = 1; i <= info.size; i++) {
@@ -2091,60 +2146,61 @@
 
         // Propagar ganador de playoffs a la siguiente ronda
         function propagatePlayoffWinner(matchKey, selectedTeam) {
+            const m = knockoutMatches[matchKey];
+            const loser = m ? (selectedTeam === m.tA ? m.tB : m.tA) : null;
+
             if (matchKey.startsWith('r32_')) {
-                const idx = parseInt(matchKey.split('_')[1]);
-                const nextIndex = Math.ceil(idx / 2);
-                const nextKey = `r16_${nextIndex}`;
-                const nextMatch = knockoutMatches[nextKey];
-                
-                if (idx % 2 === 1) nextMatch.tA = selectedTeam;
-                else nextMatch.tB = selectedTeam;
-
-                nextMatch.w = null;
-                nextMatch.golesA = null;
-                nextMatch.golesB = null;
-                clearPlayoffDescendants(nextKey);
-
+                const map = r32ToR16Mapping[matchKey];
+                if (map) {
+                    const nextMatch = knockoutMatches[map.nextKey];
+                    nextMatch[map.side] = selectedTeam;
+                    nextMatch.w = null;
+                    nextMatch.golesA = null;
+                    nextMatch.golesB = null;
+                    clearPlayoffDescendants(map.nextKey);
+                }
             } else if (matchKey.startsWith('r16_')) {
-                const idx = parseInt(matchKey.split('_')[1]);
-                const nextIndex = Math.ceil(idx / 2);
-                const nextKey = `qf_${nextIndex}`;
-                const nextMatch = knockoutMatches[nextKey];
-
-                if (idx % 2 === 1) nextMatch.tA = selectedTeam;
-                else nextMatch.tB = selectedTeam;
-                
-                nextMatch.w = null;
-                nextMatch.golesA = null;
-                nextMatch.golesB = null;
-                clearPlayoffDescendants(nextKey);
-
+                const map = r16ToQfMapping[matchKey];
+                if (map) {
+                    const nextMatch = knockoutMatches[map.nextKey];
+                    nextMatch[map.side] = selectedTeam;
+                    nextMatch.w = null;
+                    nextMatch.golesA = null;
+                    nextMatch.golesB = null;
+                    clearPlayoffDescendants(map.nextKey);
+                }
             } else if (matchKey.startsWith('qf_')) {
-                const idx = parseInt(matchKey.split('_')[1]);
-                const nextIndex = Math.ceil(idx / 2);
-                const nextKey = `sf_${nextIndex}`;
-                const nextMatch = knockoutMatches[nextKey];
-
-                if (idx % 2 === 1) nextMatch.tA = selectedTeam;
-                else nextMatch.tB = selectedTeam;
-                
-                nextMatch.w = null;
-                nextMatch.golesA = null;
-                nextMatch.golesB = null;
-                clearPlayoffDescendants(nextKey);
-
+                const map = qfToSfMapping[matchKey];
+                if (map) {
+                    const nextMatch = knockoutMatches[map.nextKey];
+                    nextMatch[map.side] = selectedTeam;
+                    nextMatch.w = null;
+                    nextMatch.golesA = null;
+                    nextMatch.golesB = null;
+                    clearPlayoffDescendants(map.nextKey);
+                }
             } else if (matchKey.startsWith('sf_')) {
-                const idx = parseInt(matchKey.split('_')[1]);
                 const nextMatch = knockoutMatches['final'];
-
-                if (idx === 1) nextMatch.tA = selectedTeam;
-                else nextMatch.tB = selectedTeam;
-                
-                nextMatch.w = null;
-                nextMatch.golesA = null;
-                nextMatch.golesB = null;
+                const thirdMatch = knockoutMatches['third_place'];
+                if (matchKey === 'sf_1') {
+                    if (nextMatch) nextMatch.tA = selectedTeam;
+                    if (thirdMatch) thirdMatch.tA = loser;
+                } else if (matchKey === 'sf_2') {
+                    if (nextMatch) nextMatch.tB = selectedTeam;
+                    if (thirdMatch) thirdMatch.tB = loser;
+                }
+                if (nextMatch) {
+                    nextMatch.w = null;
+                    nextMatch.golesA = null;
+                    nextMatch.golesB = null;
+                }
+                if (thirdMatch) {
+                    thirdMatch.w = null;
+                    thirdMatch.golesA = null;
+                    thirdMatch.golesB = null;
+                }
                 clearPlayoffDescendants('final');
-
+                if (thirdMatch) clearPlayoffDescendants('third_place');
             } else if (matchKey === 'final') {
                 showChampion(selectedTeam);
             }
@@ -2152,58 +2208,67 @@
 
         // Limpiar cascada de ganadores y marcadores obsoletos en playoffs
         function clearPlayoffDescendants(key) {
-            if (key.startsWith('r16_')) {
-                const idx = parseInt(key.split('_')[1]);
-                const qfIdx = Math.ceil(idx / 2);
-                const sfIdx = Math.ceil(qfIdx / 2);
-
-                const qfKey = `qf_${qfIdx}`;
-                const sfKey = `sf_${sfIdx}`;
-
-                if (knockoutMatches[qfKey]) {
-                    if (idx % 2 === 1) knockoutMatches[qfKey].tA = null;
-                    else knockoutMatches[qfKey].tB = null;
-                    knockoutMatches[qfKey].w = null;
-                    knockoutMatches[qfKey].golesA = null;
-                    knockoutMatches[qfKey].golesB = null;
+            if (key.startsWith('r32_')) {
+                const map = r32ToR16Mapping[key];
+                if (map) {
+                    const nextKey = map.nextKey;
+                    if (knockoutMatches[nextKey]) {
+                        knockoutMatches[nextKey][map.side] = null;
+                        knockoutMatches[nextKey].w = null;
+                        knockoutMatches[nextKey].golesA = null;
+                        knockoutMatches[nextKey].golesB = null;
+                        clearPlayoffDescendants(nextKey);
+                    }
                 }
-                if (knockoutMatches[sfKey]) {
-                    if (qfIdx % 2 === 1) knockoutMatches[sfKey].tA = null;
-                    else knockoutMatches[sfKey].tB = null;
-                    knockoutMatches[sfKey].w = null;
-                    knockoutMatches[sfKey].golesA = null;
-                    knockoutMatches[sfKey].golesB = null;
+            } else if (key.startsWith('r16_')) {
+                const map = r16ToQfMapping[key];
+                if (map) {
+                    const nextKey = map.nextKey;
+                    if (knockoutMatches[nextKey]) {
+                        knockoutMatches[nextKey][map.side] = null;
+                        knockoutMatches[nextKey].w = null;
+                        knockoutMatches[nextKey].golesA = null;
+                        knockoutMatches[nextKey].golesB = null;
+                        clearPlayoffDescendants(nextKey);
+                    }
                 }
-                knockoutMatches['final'].tA = null;
-                knockoutMatches['final'].tB = null;
-                knockoutMatches['final'].w = null;
-                knockoutMatches['final'].golesA = null;
-                knockoutMatches['final'].golesB = null;
-
             } else if (key.startsWith('qf_')) {
-                const idx = parseInt(key.split('_')[1]);
-                const sfIdx = Math.ceil(idx / 2);
-                const sfKey = `sf_${sfIdx}`;
-
-                if (knockoutMatches[sfKey]) {
-                    if (idx % 2 === 1) knockoutMatches[sfKey].tA = null;
-                    else knockoutMatches[sfKey].tB = null;
-                    knockoutMatches[sfKey].w = null;
-                    knockoutMatches[sfKey].golesA = null;
-                    knockoutMatches[sfKey].golesB = null;
+                const map = qfToSfMapping[key];
+                if (map) {
+                    const nextKey = map.nextKey;
+                    if (knockoutMatches[nextKey]) {
+                        knockoutMatches[nextKey][map.side] = null;
+                        knockoutMatches[nextKey].w = null;
+                        knockoutMatches[nextKey].golesA = null;
+                        knockoutMatches[nextKey].golesB = null;
+                        clearPlayoffDescendants(nextKey);
+                    }
                 }
-                knockoutMatches['final'].tA = null;
-                knockoutMatches['final'].tB = null;
-                knockoutMatches['final'].w = null;
-                knockoutMatches['final'].golesA = null;
-                knockoutMatches['final'].golesB = null;
-
             } else if (key.startsWith('sf_')) {
-                knockoutMatches['final'].tA = null;
-                knockoutMatches['final'].tB = null;
-                knockoutMatches['final'].w = null;
-                knockoutMatches['final'].golesA = null;
-                knockoutMatches['final'].golesB = null;
+                const nextMatch = knockoutMatches['final'];
+                const thirdMatch = knockoutMatches['third_place'];
+                const side = key === 'sf_1' ? 'tA' : 'tB';
+                
+                if (nextMatch) {
+                    nextMatch[side] = null;
+                    nextMatch.w = null;
+                    nextMatch.golesA = null;
+                    nextMatch.golesB = null;
+                }
+                if (thirdMatch) {
+                    thirdMatch[side] = null;
+                    thirdMatch.w = null;
+                    thirdMatch.golesA = null;
+                    thirdMatch.golesB = null;
+                }
+                clearPlayoffDescendants('final');
+                clearPlayoffDescendants('third_place');
+            } else if (key === 'final') {
+                document.getElementById('champion-screen').classList.add('hidden');
+                const grid = document.getElementById('knockout-matches-grid');
+                if (grid && knockoutRound === 'sf') {
+                    grid.classList.remove('hidden');
+                }
             }
         }
 
@@ -2221,6 +2286,9 @@
             if (knockoutRound === 'sf') {
                 simulatePlayoffMatch('sf_1');
                 simulatePlayoffMatch('sf_2');
+                if (knockoutMatches['third_place'] && knockoutMatches['third_place'].tA && knockoutMatches['third_place'].tB) {
+                    simulatePlayoffMatch('third_place');
+                }
                 if (knockoutMatches['final'].tA && knockoutMatches['final'].tB) {
                     simulatePlayoffMatch('final');
                 }
@@ -2732,12 +2800,13 @@
                     { keyPrefix: 'r16', label: 'Octavos de Final', count: 8 },
                     { keyPrefix: 'qf', label: 'Cuartos de Final', count: 4 },
                     { keyPrefix: 'sf', label: 'Semifinal', count: 2 },
+                    { keyPrefix: 'third_place', label: 'Tercer Puesto', count: 1 },
                     { keyPrefix: 'final', label: 'Gran Final', count: 1 }
                 ];
 
                 rounds.forEach(round => {
                     for (let i = 1; i <= round.count; i++) {
-                        const key = round.keyPrefix === 'final' ? 'final' : `${round.keyPrefix}_${i}`;
+                        const key = (round.keyPrefix === 'final' || round.keyPrefix === 'third_place') ? round.keyPrefix : `${round.keyPrefix}_${i}`;
                         const m = knockoutMatches[key];
                         if (!m) continue;
                         
