@@ -411,7 +411,7 @@
             <!-- Selector de Fechas (Timeline Horizontal Desplazable) -->
             <div class="relative flex items-center bg-brandGray/30 border border-white/10 p-3 rounded-2xl mb-8">
                 <!-- Flecha izquierda -->
-                <button onclick="scrollCalendarBar(-150)" class="w-10 h-10 flex items-center justify-center text-white/60 hover:text-brandGold transition-colors shrink-0 bg-brandDark/50 border border-white/5 rounded-xl hover:border-brandGold/30 mr-2" aria-label="Desplazar fechas a la izquierda">
+                <button id="calendar-btn-prev" class="w-10 h-10 flex items-center justify-center text-white/60 hover:text-brandGold transition-colors shrink-0 bg-brandDark/50 border border-white/5 rounded-xl hover:border-brandGold/30 mr-2" aria-label="Desplazar fechas a la izquierda">
                     <i class="fa-solid fa-chevron-left text-sm"></i>
                 </button>
                 
@@ -421,7 +421,7 @@
                 </div>
                 
                 <!-- Flecha derecha -->
-                <button onclick="scrollCalendarBar(150)" class="w-10 h-10 flex items-center justify-center text-white/60 hover:text-brandGold transition-colors shrink-0 bg-brandDark/50 border border-white/5 rounded-xl hover:border-brandGold/30 ml-2" aria-label="Desplazar fechas a la derecha">
+                <button id="calendar-btn-next" class="w-10 h-10 flex items-center justify-center text-white/60 hover:text-brandGold transition-colors shrink-0 bg-brandDark/50 border border-white/5 rounded-xl hover:border-brandGold/30 ml-2" aria-label="Desplazar fechas a la derecha">
                     <i class="fa-solid fa-chevron-right text-sm"></i>
                 </button>
             </div>
@@ -3900,6 +3900,80 @@
             return days[date.getDay()];
         }
 
+        function setupCalendarScrolling() {
+            const btnPrev = document.getElementById('calendar-btn-prev');
+            const btnNext = document.getElementById('calendar-btn-next');
+            const container = document.getElementById('calendar-dates-bar');
+            if (!btnPrev || !btnNext || !container) return;
+
+            let isHolding = false;
+            let hasScrolled = false;
+            let holdTimeout = null;
+            let scrollInterval = null;
+
+            function startScrolling(direction) {
+                isHolding = true;
+                hasScrolled = false;
+                
+                if (holdTimeout) clearTimeout(holdTimeout);
+                if (scrollInterval) clearInterval(scrollInterval);
+
+                holdTimeout = setTimeout(() => {
+                    hasScrolled = true;
+                    container.style.scrollBehavior = 'auto';
+                    
+                    scrollInterval = setInterval(() => {
+                        container.scrollLeft += direction * 8;
+                    }, 16);
+                }, 250);
+            }
+
+            function stopScrolling(direction) {
+                if (holdTimeout) clearTimeout(holdTimeout);
+                if (scrollInterval) clearInterval(scrollInterval);
+
+                if (isHolding) {
+                    isHolding = false;
+                    container.style.scrollBehavior = '';
+
+                    if (!hasScrolled) {
+                        container.scrollBy({
+                            left: direction * 150,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            }
+
+            // Mouse Events
+            btnPrev.addEventListener('mousedown', (e) => {
+                if (e.button === 0) startScrolling(-1);
+            });
+            btnNext.addEventListener('mousedown', (e) => {
+                if (e.button === 0) startScrolling(1);
+            });
+
+            btnPrev.addEventListener('mouseup', () => stopScrolling(-1));
+            btnNext.addEventListener('mouseup', () => stopScrolling(1));
+            btnPrev.addEventListener('mouseleave', () => stopScrolling(-1));
+            btnNext.addEventListener('mouseleave', () => stopScrolling(1));
+
+            // Touch Events
+            btnPrev.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                startScrolling(-1);
+            }, { passive: false });
+            btnNext.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                startScrolling(1);
+            }, { passive: false });
+
+            btnPrev.addEventListener('touchend', () => stopScrolling(-1));
+            btnNext.addEventListener('touchend', () => stopScrolling(1));
+            btnPrev.addEventListener('touchcancel', () => stopScrolling(-1));
+            btnNext.addEventListener('touchcancel', () => stopScrolling(1));
+        }
+
         function initCalendar() {
             calendarDates = [];
             
@@ -3923,6 +3997,7 @@
 
             renderCalendarDates();
             selectCalendarDate('2026-06-11');
+            setupCalendarScrolling();
         }
 
         function renderCalendarDates() {
