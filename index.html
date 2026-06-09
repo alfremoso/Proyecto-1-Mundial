@@ -409,7 +409,7 @@
             </div>
 
             <!-- Selector de Fechas (Timeline Horizontal Desplazable) -->
-            <div class="relative flex items-center bg-brandGray/30 border border-white/10 p-3 rounded-2xl mb-8">
+            <div class="relative flex items-center bg-brandGray/30 border border-white/10 p-3 rounded-2xl mb-6">
                 <!-- Flecha izquierda -->
                 <button id="calendar-btn-prev" class="w-10 h-10 flex items-center justify-center text-white/60 hover:text-brandGold transition-colors shrink-0 bg-brandDark/50 border border-white/5 rounded-xl hover:border-brandGold/30 mr-2" aria-label="Desplazar fechas a la izquierda">
                     <i class="fa-solid fa-chevron-left text-sm"></i>
@@ -424,6 +424,11 @@
                 <button id="calendar-btn-next" class="w-10 h-10 flex items-center justify-center text-white/60 hover:text-brandGold transition-colors shrink-0 bg-brandDark/50 border border-white/5 rounded-xl hover:border-brandGold/30 ml-2" aria-label="Desplazar fechas a la derecha">
                     <i class="fa-solid fa-chevron-right text-sm"></i>
                 </button>
+            </div>
+
+            <!-- Etiqueta de la Fase del Día Seleccionado -->
+            <div id="calendar-phase-label-container" class="text-center mb-6 hidden">
+                <span id="calendar-phase-label" class="text-xs font-bold text-brandGold uppercase tracking-widest">FASE DE GRUPOS</span>
             </div>
 
             <!-- Lista de Partidos del Día Seleccionado -->
@@ -4021,6 +4026,36 @@
             });
         }
 
+        function updateCalendarPhaseLabel(isoDate) {
+            const labelEl = document.getElementById('calendar-phase-label');
+            const containerEl = document.getElementById('calendar-phase-label-container');
+            if (!labelEl || !containerEl) return;
+
+            const dateParts = isoDate.split('-');
+            const month = parseInt(dateParts[1]);
+            const day = parseInt(dateParts[2]);
+            let phase = "";
+
+            if (month === 6) { // Junio
+                if (day >= 11 && day <= 27) phase = "FASE DE GRUPOS";
+                else if (day >= 28 && day <= 30) phase = "DIECISEISAVOS DE FINAL";
+            } else if (month === 7) { // Julio
+                if (day >= 1 && day <= 3) phase = "DIECISEISAVOS DE FINAL";
+                else if (day >= 4 && day <= 7) phase = "OCTAVOS DE FINAL";
+                else if (day >= 9 && day <= 11) phase = "CUARTOS DE FINAL";
+                else if (day >= 14 && day <= 15) phase = "SEMIFINALES";
+                else if (day === 18) phase = "TERCER PUESTO";
+                else if (day === 19) phase = "FINAL";
+            }
+
+            if (phase) {
+                labelEl.textContent = phase;
+                containerEl.classList.remove('hidden');
+            } else {
+                containerEl.classList.add('hidden');
+            }
+        }
+
         function selectCalendarDate(isoDate) {
             // Deseleccionar el botón anterior
             const prevBtn = document.getElementById(`cal-btn-${currentCalendarDate}`);
@@ -4038,6 +4073,7 @@
                 nextBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             }
 
+            updateCalendarPhaseLabel(isoDate);
             renderCalendarMatches();
         }
 
