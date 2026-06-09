@@ -3798,7 +3798,7 @@
                             <span class="text-xs font-black text-brandGold font-display">${computedStats.probabilidad}</span>
                         </div>
                         <div class="hidden sm:inline-block h-3 w-px bg-white/10"></div>
-                        <div class="flex items-center gap-1.5">
+                        <div class="flex items-center gap-1.5 cursor-help" title="Fuerza / Poder: Nivel competitivo y potencial goleador">
                             <span class="text-[9px] text-white/50 uppercase tracking-widest font-semibold">Fuerza / Poder:</span>
                             <span class="text-[10px] font-bold text-white bg-white/10 border border-white/10 px-1.5 py-0.5 rounded">${computedStats.fuerza}</span>
                         </div>
@@ -3877,6 +3877,16 @@
                             </div>
                         </div>
 
+                    </div>
+                </div>
+
+                <!-- Leyenda de Fuerza / Poder -->
+                <div class="mt-4 flex justify-center">
+                    <div class="inline-flex items-center gap-2 bg-black/35 border border-white/10 px-4 py-2 rounded-xl sm:rounded-full text-xs text-white/70 backdrop-blur-md max-w-full">
+                        <i class="fa-solid fa-circle-info text-brandGold shrink-0"></i>
+                        <span class="text-[11px] sm:text-xs leading-normal">
+                            <span class="font-bold text-white">Fuerza / Poder:</span> Nivel competitivo y potencial goleador
+                        </span>
                     </div>
                 </div>
             `;
