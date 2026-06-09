@@ -1779,7 +1779,7 @@
                 const row = `
                     <tr class="hover:bg-white/[0.02] transition-colors border-b border-white/5">
                         <td class="py-3 px-4 text-center"><span class="inline-block text-xs px-2 py-0.5 rounded-md ${badgeStyle}">${index + 1}</span></td>
-                        <td class="py-3 px-2 font-display font-black text-brandGold text-center text-xs md:text-sm">Grupo ${item.group}</td>
+                        <td class="py-3 px-2 font-display font-black text-brandGold text-center text-xs md:text-sm"><span class="hidden md:inline">Grupo </span>${item.group}</td>
                         <td class="py-3 px-2 font-sans font-normal flex items-center gap-2 text-xs md:text-sm">
                             <img src="https://flagcdn.com/w40/${item.team.code}.png" class="w-6 h-4 object-cover rounded shadow-sm border border-white/25 inline-block" alt="${item.team.nombre}">
                             <span class="truncate max-w-[120px] md:max-w-none">${item.team.nombre}</span>
