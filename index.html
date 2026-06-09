@@ -1799,14 +1799,14 @@
             sortedThirds.slice(0, 8).forEach((item, index) => {
                 const el = `
                     <div class="flex items-center justify-between text-xs py-1 border-b border-white/5">
-                        <div class="flex items-center gap-1.5">
-                            <span class="text-white/40 font-mono">${index + 1}.</span>
-                            <img src="https://flagcdn.com/w40/${item.team.code}.png" class="w-5 h-3.5 object-cover rounded shadow-sm border border-white/25 inline-block" alt="${item.team.nombre}">
-                            <span class="font-normal truncate max-w-[100px]">${item.team.nombre}</span>
+                        <div class="flex items-center gap-1.5 flex-grow truncate mr-2">
+                            <span class="text-white/40 font-mono w-4 shrink-0 text-left">${index + 1}.</span>
+                            <img src="https://flagcdn.com/w40/${item.team.code}.png" class="w-5 h-3.5 object-cover rounded shadow-sm border border-white/25 inline-block shrink-0" alt="${item.team.nombre}">
+                            <span class="font-normal truncate max-w-[100px] sm:max-w-[120px]">${item.team.nombre}</span>
                         </div>
-                        <div class="flex items-center gap-3">
-                            <span class="text-[10px] text-brandGold font-bold">PTS: ${item.team.pts}</span>
-                            <span class="text-[10px] text-white/50">DG: ${item.team.dg > 0 ? '+' : ''}${item.team.dg}</span>
+                        <div class="flex items-center gap-3 shrink-0">
+                            <span class="text-[10px] text-brandGold font-bold w-12 inline-block text-right">PTS: ${item.team.pts}</span>
+                            <span class="text-[10px] text-white/50 w-12 inline-block text-right">DG: ${item.team.dg > 0 ? '+' : ''}${item.team.dg}</span>
                         </div>
                     </div>
                 `;
