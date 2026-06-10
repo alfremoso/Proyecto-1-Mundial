@@ -1650,6 +1650,12 @@
             container.innerHTML = '';
 
             const groupMatches = matches.filter(m => m.grupo === currentGroup);
+            groupMatches.sort((a, b) => {
+                if (a.fechaISO !== b.fechaISO) {
+                    return a.fechaISO.localeCompare(b.fechaISO);
+                }
+                return a.horaChile.localeCompare(b.horaChile);
+            });
 
             groupMatches.forEach(m => {
                 const teamA = teams.find(t => t.id === m.teamAId);
@@ -4259,6 +4265,15 @@
                     });
                 }
             }
+
+            result.sort((a, b) => {
+                if (a.horaChile !== b.horaChile) {
+                    return a.horaChile.localeCompare(b.horaChile);
+                }
+                const gA = a.grupo || 'Z';
+                const gB = b.grupo || 'Z';
+                return gA.localeCompare(gB);
+            });
 
             return result;
         }
