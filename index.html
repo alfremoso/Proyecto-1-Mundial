@@ -427,8 +427,9 @@
             </div>
 
             <!-- Etiqueta de la Fase del Día Seleccionado -->
-            <div id="calendar-phase-label-container" class="text-center mb-6 hidden">
+            <div id="calendar-phase-label-container" class="flex flex-col items-center text-center mb-6 gap-1 hidden">
                 <span id="calendar-phase-label" class="text-xs font-bold text-brandGold uppercase tracking-widest">FASE DE GRUPOS</span>
+                <span id="calendar-phase-sublabel" class="text-[10px] text-white/50 font-sans font-normal normal-case tracking-normal hidden">(Fixture sujeto a ajustes)</span>
             </div>
 
             <!-- Lista de Partidos del Día Seleccionado -->
@@ -4107,6 +4108,7 @@
 
         function updateCalendarPhaseLabel(isoDate) {
             const labelEl = document.getElementById('calendar-phase-label');
+            const sublabelEl = document.getElementById('calendar-phase-sublabel');
             const containerEl = document.getElementById('calendar-phase-label-container');
             if (!labelEl || !containerEl) return;
 
@@ -4114,21 +4116,44 @@
             const month = parseInt(dateParts[1]);
             const day = parseInt(dateParts[2]);
             let phase = "";
+            let showSublabel = false;
 
             if (month === 6) { // Junio
                 if (day >= 11 && day <= 27) phase = "FASE DE GRUPOS";
-                else if (day >= 28 && day <= 30) phase = "DIECISEISAVOS DE FINAL";
+                else if (day >= 28 && day <= 30) {
+                    phase = "DIECISEISAVOS DE FINAL";
+                    showSublabel = true;
+                }
             } else if (month === 7) { // Julio
-                if (day >= 1 && day <= 3) phase = "DIECISEISAVOS DE FINAL";
-                else if (day >= 4 && day <= 7) phase = "OCTAVOS DE FINAL";
-                else if (day >= 9 && day <= 11) phase = "CUARTOS DE FINAL";
-                else if (day >= 14 && day <= 15) phase = "SEMIFINALES";
+                if (day >= 1 && day <= 3) {
+                    phase = "DIECISEISAVOS DE FINAL";
+                    showSublabel = true;
+                }
+                else if (day >= 4 && day <= 7) {
+                    phase = "OCTAVOS DE FINAL";
+                    showSublabel = true;
+                }
+                else if (day >= 9 && day <= 11) {
+                    phase = "CUARTOS DE FINAL";
+                    showSublabel = true;
+                }
+                else if (day >= 14 && day <= 15) {
+                    phase = "SEMIFINALES";
+                    showSublabel = true;
+                }
                 else if (day === 18) phase = "TERCER PUESTO";
                 else if (day === 19) phase = "FINAL";
             }
 
             if (phase) {
                 labelEl.textContent = phase;
+                if (sublabelEl) {
+                    if (showSublabel) {
+                        sublabelEl.classList.remove('hidden');
+                    } else {
+                        sublabelEl.classList.add('hidden');
+                    }
+                }
                 containerEl.classList.remove('hidden');
             } else {
                 containerEl.classList.add('hidden');
