@@ -1517,15 +1517,44 @@
                     { tA: 1, tB: 2, jor: 3, stad: stadIndex[1] }
                 ];
 
+                const reversals = {
+                    A: [false, false, false, true, false, false], 
+                    B: [true, true, false, false, true, true], 
+                    C: [false, true, true, false, true, true], 
+                    D: [false, false, false, true, false, false], 
+                    E: [true, true, false, false, true, true], 
+                    F: [false, true, true, false, true, true], 
+                    G: [false, true, false, false, false, true], 
+                    H: [true, true, false, false, true, true], 
+                    I: [false, true, true, false, true, true], 
+                    J: [false, false, false, true, false, false], 
+                    K: [true, true, false, false, true, true], 
+                    L: [false, true, true, false, true, true]
+                };
+
                 matchTemplates.forEach((mt, idx) => {
                     const stadium = stadiumsList[mt.stad];
                     const schedule = officialFixtureSchedule[gId][idx];
+                    
+                    // Determinar la jornada de manera cronológica en base a la fechaISO
+                    let jor = 1;
+                    if (schedule.fechaISO >= "2026-06-24") {
+                        jor = 3;
+                    } else if (schedule.fechaISO >= "2026-06-18") {
+                        jor = 2;
+                    }
+
+                    // Intercambiar tA y tB si el orden según FIFA oficial está al revés
+                    const shouldSwap = reversals[gId] && reversals[gId][idx];
+                    const tAIndex = shouldSwap ? mt.tB : mt.tA;
+                    const tBIndex = shouldSwap ? mt.tA : mt.tB;
+
                     matches.push({
                         id: `match_${gId}_${idx + 1}`,
                         grupo: gId,
-                        jornada: mt.jor,
-                        teamAId: groupTeams[mt.tA].id,
-                        teamBId: groupTeams[mt.tB].id,
+                        jornada: jor,
+                        teamAId: groupTeams[tAIndex].id,
+                        teamBId: groupTeams[tBIndex].id,
                         golesA: null,
                         golesB: null,
                         estadio: stadium.name + ", " + stadium.city,
