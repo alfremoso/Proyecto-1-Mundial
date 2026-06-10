@@ -2811,11 +2811,33 @@
         function exportSimulationToCSV() {
             try {
                 let csvContent = "\uFEFF"; // UTF-8 BOM
-                // Encabezados
-                csvContent += "Etapa;Equipo Local;Goles Local;Goles Visita;Equipo Visita;Ganador / Detalle\r\n";
+                // Encabezados (8 columnas)
+                csvContent += "N°;Fecha;Etapa;Equipo Local (A);Goles Local (A);Goles Visita (B);Equipo Visita (B);Ganador / Detalle\r\n";
 
-                // 1. Fase de Grupos
-                matches.forEach(m => {
+                const formatISODateToSpanish = (isoDate) => {
+                    if (!isoDate) return "-";
+                    const parts = isoDate.split('-');
+                    if (parts.length !== 3) return isoDate;
+                    const day = parseInt(parts[2]);
+                    const month = parseInt(parts[1]);
+                    const monthStr = month === 6 ? "junio" : "julio";
+                    return `${day} de ${monthStr} de 2026`;
+                };
+
+                let matchCounter = 1;
+
+                // 1. Fase de Grupos (Clonar y ordenar por grupo, y luego cronológicamente)
+                const sortedGroupMatches = [...matches].sort((a, b) => {
+                    if (a.grupo !== b.grupo) {
+                        return a.grupo.localeCompare(b.grupo);
+                    }
+                    if (a.fechaISO !== b.fechaISO) {
+                        return a.fechaISO.localeCompare(b.fechaISO);
+                    }
+                    return a.horaChile.localeCompare(b.horaChile);
+                });
+
+                sortedGroupMatches.forEach(m => {
                     const eqA = teams.find(t => t.id === m.teamAId);
                     const eqB = teams.find(t => t.id === m.teamBId);
                     const nameA = eqA ? eqA.nombre : "Desconocido";
@@ -2835,7 +2857,8 @@
                         result = "No Jugado";
                     }
                     
-                    csvContent += `Grupo ${m.grupo};${nameA};${golesA};${golesB};${nameB};${result}\r\n`;
+                    csvContent += `${matchCounter};${m.fecha};Grupo ${m.grupo};${nameA};${golesA};${golesB};${nameB};${result}\r\n`;
+                    matchCounter++;
                 });
 
                 // 2. Fase Final (Playoffs)
@@ -2871,7 +2894,11 @@
                             result = "Pendiente";
                         }
                         
-                        csvContent += `${round.label};${nameA};${golesA};${golesB};${nameB};${result}\r\n`;
+                        const meta = knockoutMeta[key];
+                        const playoffDate = meta ? formatISODateToSpanish(meta.date) : "-";
+
+                        csvContent += `${matchCounter};${playoffDate};${round.label};${nameA};${golesA};${golesB};${nameB};${result}\r\n`;
+                        matchCounter++;
                     }
                 });
 
