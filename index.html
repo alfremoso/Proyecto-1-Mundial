@@ -262,7 +262,7 @@
         <div class="relative z-10 max-w-4xl mx-auto space-y-3 sm:space-y-5 lg:space-y-6">
             <!-- Cuenta Regresiva de Estadio -->
             <div class="inline-flex flex-col items-center gap-1.5 sm:gap-2">
-                <span class="text-[10px] sm:text-xs uppercase tracking-widest text-brandGold font-bold bg-brandGold/10 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full border border-brandGold/30">
+                <span id="countdown-label" class="text-[10px] sm:text-xs uppercase tracking-widest text-brandGold font-bold bg-brandGold/10 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full border border-brandGold/30">
                     <i class="fa-solid fa-circle-play mr-2 text-red-500 animate-ping"></i>El partido inaugural comienza en
                 </span>
                 <div id="countdown" class="flex gap-1.5 sm:gap-3 font-display font-black text-lg sm:text-2xl lg:text-3xl text-white">
@@ -1145,7 +1145,54 @@
     <!-- LÓGICA Y MOTOR DE SIMULACIÓN INTERACTIVA (JavaScript) -->
     <script>
         // --- 1. LÓGICA DE LA CUENTA REGRESIVA ---
-        const targetDate = new Date('2026-06-11T15:00:00-04:00').getTime();
+        const knockoutPlaceholders = {
+            r32_1: { tA: "2A", tB: "2B" },
+            r32_2: { tA: "1E", tB: "3A/B/C/D/F" },
+            r32_3: { tA: "1F", tB: "2C" },
+            r32_4: { tA: "1C", tB: "2F" },
+            r32_5: { tA: "1I", tB: "3C/D/F/G/H" },
+            r32_6: { tA: "2E", tB: "2I" },
+            r32_7: { tA: "1A", tB: "3C/E/F/H/I" },
+            r32_8: { tA: "1L", tB: "3E/H/I/J/K" },
+            r32_9: { tA: "1D", tB: "3B/E/F/I/J" },
+            r32_10: { tA: "1G", tB: "3A/E/H/I/J" },
+            r32_11: { tA: "2K", tB: "2L" },
+            r32_12: { tA: "1H", tB: "2J" },
+            r32_13: { tA: "1B", tB: "3E/F/G/I/J" },
+            r32_14: { tA: "1J", tB: "2H" },
+            r32_15: { tA: "1K", tB: "3D/E/I/J/L" },
+            r32_16: { tA: "2D", tB: "2G" },
+
+            r16_1: { tA: "G R32-2", tB: "G R32-5" },
+            r16_2: { tA: "G R32-1", tB: "G R32-3" },
+            r16_3: { tA: "G R32-4", tB: "G R32-6" },
+            r16_4: { tA: "G R32-7", tB: "G R32-8" },
+            r16_5: { tA: "G R32-11", tB: "G R32-12" },
+            r16_6: { tA: "G R32-9", tB: "G R32-10" },
+            r16_7: { tA: "G R32-14", tB: "G R32-16" },
+            r16_8: { tA: "G R32-13", tB: "G R32-15" },
+
+            qf_1: { tA: "G R16-1", tB: "G R16-2" },
+            qf_2: { tA: "G R16-5", tB: "G R16-6" },
+            qf_3: { tA: "G R16-3", tB: "G R16-4" },
+            qf_4: { tA: "G R16-7", tB: "G R16-8" },
+
+            sf_1: { tA: "G QF-1", tB: "G QF-2" },
+            sf_2: { tA: "G QF-3", tB: "G QF-4" },
+
+            third_place: { tA: "P SF-1", tB: "P SF-2" },
+            final: { tA: "G SF-1", tB: "G SF-2" }
+        };
+
+        function formatISODateToSpanishShort(isoDate) {
+            if (!isoDate) return "-";
+            const parts = isoDate.split('-');
+            if (parts.length !== 3) return isoDate;
+            const day = parseInt(parts[2]);
+            const month = parseInt(parts[1]);
+            const monthStr = month === 6 ? "junio" : "julio";
+            return `${day} de ${monthStr}`;
+        }
 
         // Fail-safe de almacenamiento para evitar caídas en navegadores que bloqueen localStorage en protocolos file:// o navegación privada
         const storageFallback = {};
@@ -1177,13 +1224,95 @@
 
         function updateCountdown() {
             const now = new Date().getTime();
-            const difference = targetDate - now;
 
-            if (difference <= 0) {
-                document.getElementById('countdown').innerHTML = "¡EL MUNDIAL HA COMENZADO!";
+            // Tiempos del partido inaugural (11 de junio, 15:00 a 17:00 Hrs Chile)
+            const inauguralStart = new Date('2026-06-11T15:00:00-04:00').getTime();
+            const inauguralEnd = new Date('2026-06-11T17:00:00-04:00').getTime();
+
+            if (now >= inauguralStart && now <= inauguralEnd) {
+                document.getElementById('countdown-label').innerHTML = `<i class="fa-solid fa-circle-play mr-2 text-red-500 animate-ping"></i>¡EL MUNDIAL HA COMENZADO!`;
+                document.getElementById('days').innerText = "00";
+                document.getElementById('hours').innerText = "00";
+                document.getElementById('minutes').innerText = "00";
+                document.getElementById('seconds').innerText = "00";
                 return;
             }
 
+            // Safe guard: if data is not loaded yet (before DOMContentLoaded completes), count down to inaugural match
+            if (!teams || teams.length === 0 || !matches || matches.length === 0) {
+                const difference = inauguralStart - now;
+                if (difference > 0) {
+                    document.getElementById('countdown-label').innerHTML = `<i class="fa-solid fa-circle-play mr-2 text-red-500 animate-ping"></i>El partido inaugural comienza en`;
+                    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                    document.getElementById('days').innerText = String(days).padStart(2, '0');
+                    document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+                    document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+                    document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+                } else {
+                    // If inaugural match has passed but data is not loaded yet, just show 00
+                    document.getElementById('days').innerText = "00";
+                    document.getElementById('hours').innerText = "00";
+                    document.getElementById('minutes').innerText = "00";
+                    document.getElementById('seconds').innerText = "00";
+                }
+                return;
+            }
+
+            // Mapear partidos de grupos
+            const groupMatchesInfo = matches.map(m => {
+                const eqA = teams.find(t => t.id === m.teamAId);
+                const eqB = teams.find(t => t.id === m.teamBId);
+                return {
+                    fecha: formatISODateToSpanishShort(m.fechaISO),
+                    teamA: eqA ? eqA.nombre : "Desconocido",
+                    teamB: eqB ? eqB.nombre : "Desconocido",
+                    timeMs: new Date(`${m.fechaISO}T${m.horaChile}:00-04:00`).getTime(),
+                    hora: m.horaChile
+                };
+            });
+
+            // Mapear partidos de playoffs
+            const playoffMatchesInfo = [];
+            for (let key in knockoutMeta) {
+                const meta = knockoutMeta[key];
+                const km = knockoutMatches ? knockoutMatches[key] : null;
+                const placeholder = knockoutPlaceholders[key];
+                const teamA = km && km.tA ? km.tA.nombre : (placeholder ? placeholder.tA : "Pendiente");
+                const teamB = km && km.tB ? km.tB.nombre : (placeholder ? placeholder.tB : "Pendiente");
+                playoffMatchesInfo.push({
+                    fecha: formatISODateToSpanishShort(meta.date),
+                    teamA: teamA,
+                    teamB: teamB,
+                    timeMs: new Date(`${meta.date}T${meta.time}:00-04:00`).getTime(),
+                    hora: meta.time
+                });
+            }
+
+            const allMatches = [...groupMatchesInfo, ...playoffMatchesInfo];
+            const upcoming = allMatches.filter(m => m.timeMs > now);
+
+            if (upcoming.length === 0) {
+                document.getElementById('countdown-label').innerHTML = `<i class="fa-solid fa-circle-play mr-2 text-brandGold"></i>¡EL MUNDIAL HA FINALIZADO!`;
+                document.getElementById('days').innerText = "00";
+                document.getElementById('hours').innerText = "00";
+                document.getElementById('minutes').innerText = "00";
+                document.getElementById('seconds').innerText = "00";
+                return;
+            }
+
+            // Ordenar de forma ascendente y tomar el primero
+            upcoming.sort((a, b) => a.timeMs - b.timeMs);
+            const nextMatch = upcoming[0];
+            const difference = nextMatch.timeMs - now;
+
+            // Actualizar cabecera
+            document.getElementById('countdown-label').innerHTML = `<i class="fa-solid fa-circle-play mr-2 text-red-500 animate-ping"></i>Próximo partido ${nextMatch.fecha} ${nextMatch.hora} hrs : ${nextMatch.teamA} vs ${nextMatch.teamB}`;
+
+            // Calcular tiempos
             const days = Math.floor(difference / (1000 * 60 * 60 * 24));
             const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
@@ -4501,6 +4630,7 @@
             initActiveNavigationObserver();
             initSeleccionesSection();
             initCalendar();
+            updateCountdown();
 
             // Forzar que la página se inicie al principio y con la opción "Grupos" seleccionada
             window.scrollTo({ top: 0, behavior: 'instant' });
