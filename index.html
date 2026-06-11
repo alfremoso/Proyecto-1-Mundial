@@ -1323,8 +1323,7 @@
             document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
             document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
         }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
+
 
         // --- 2. MODELO DE DATOS OFICIAL FIFA 2026 (48 Selecciones Reales con sus Niveles Estadísticos) ---
         const groupsData = {
@@ -4631,6 +4630,7 @@
             initSeleccionesSection();
             initCalendar();
             updateCountdown();
+            setInterval(updateCountdown, 1000);
 
             // Forzar que la página se inicie al principio y con la opción "Grupos" seleccionada
             window.scrollTo({ top: 0, behavior: 'instant' });
