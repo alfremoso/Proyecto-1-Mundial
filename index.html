@@ -2092,18 +2092,22 @@
             const assignedThirds = new Set();
 
             function getThirdPlaceTeamFor(prefGroups) {
+                console.log(`[DEBUG] getThirdPlaceTeamFor called with prefs: ${JSON.stringify(prefGroups)}. Qualified thirds groups: ${JSON.stringify(thirdsList.map(t => t.group))}`);
                 for (let g of prefGroups) {
                     const found = thirdsList.find(t => t.group === g && !assignedThirds.has(t.group));
                     if (found) {
+                        console.log(`[DEBUG] -> Found preferred group ${g}: ${found.team.nombre}`);
                         assignedThirds.add(found.group);
                         return found.team;
                     }
                 }
                 const fallback = thirdsList.find(t => !assignedThirds.has(t.group));
                 if (fallback) {
+                    console.log(`[DEBUG] -> No preferred group found. Fallback to group ${fallback.group}: ${fallback.team.nombre}`);
                     assignedThirds.add(fallback.group);
                     return fallback.team;
                 }
+                console.log(`[DEBUG] -> No thirds available.`);
                 return null;
             }
 
