@@ -1296,7 +1296,29 @@
             const upcoming = allMatches.filter(m => m.timeMs > now);
 
             if (upcoming.length === 0) {
-                document.getElementById('countdown-label').innerHTML = `<i class="fa-solid fa-circle-play mr-2 text-brandGold"></i>¡EL MUNDIAL HA FINALIZADO!`;
+                // Obtener campeón de la simulación si ya fue definido en la fase final
+                const champion = knockoutMatches && knockoutMatches.final && knockoutMatches.final.w
+                    ? knockoutMatches.final.w
+                    : null;
+
+                if (champion) {
+                    // Mensaje celebratorio con el nombre del campeón de la simulación
+                    document.getElementById('countdown-label').innerHTML =
+                        `<i class="fa-solid fa-trophy mr-2 text-brandGold animate-bounce"></i>` +
+                        `¡EL MUNDIAL FIFA 2026 HA FINALIZADO! ` +
+                        `<span class="text-brandGold font-black">` +
+                        `¡FELICITAMOS A ${champion.nombre.toUpperCase()} ${champion.flag}, MERECIDO CAMPEÓN! 🏆🎉` +
+                        `</span>`;
+                } else {
+                    // Sin campeón simulado aún → mensaje genérico de cierre
+                    document.getElementById('countdown-label').innerHTML =
+                        `<i class="fa-solid fa-trophy mr-2 text-brandGold animate-bounce"></i>` +
+                        `¡EL MUNDIAL FIFA 2026 HA FINALIZADO! ` +
+                        `<span class="text-white/70 font-semibold">` +
+                        `Simula la fase final para conocer tu campeón 🏆` +
+                        `</span>`;
+                }
+
                 document.getElementById('days').innerText = "00";
                 document.getElementById('hours').innerText = "00";
                 document.getElementById('minutes').innerText = "00";
@@ -2522,6 +2544,9 @@
 
             document.getElementById('champion-flag').innerHTML = `<img src="https://flagcdn.com/w80/${team.code}.png" class="w-20 h-14 object-cover rounded-xl shadow-lg border-2 border-brandGold mx-auto" alt="${team.nombre}">`;
             document.getElementById('champion-name').innerText = team.nombre;
+
+            // Actualizar inmediatamente el mensaje de la cabecera con el campeón
+            updateCountdown();
 
             // Disparar confetti virtual premium
             triggerConfetti();
